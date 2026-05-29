@@ -22,6 +22,25 @@ export const SoundProvider = ({ children }: { children: React.ReactNode }) => {
   const keyboardTypeRef = useRef<Howl | null>(null);
 
   useEffect(() => {
+    const handleFirstInteraction = () => {
+      const ambientBg = ambientBgRef.current;
+      const vinylCrackle = vinylCrackleRef.current;
+      
+      if (ambientBg && !ambientBg.playing()) {
+        ambientBg.play();
+        ambientBg.fade(0, 0.25, 2000);
+      }
+      if (vinylCrackle && !vinylCrackle.playing()) {
+        vinylCrackle.play();
+        vinylCrackle.fade(0, 0.12, 2000);
+      }
+
+      // Remove listeners once audio is triggered
+      window.removeEventListener('click', handleFirstInteraction);
+      window.removeEventListener('touchstart', handleFirstInteraction);
+      window.removeEventListener('keydown', handleFirstInteraction);
+    };
+
     // Only run on client-side
     if (typeof window !== "undefined") {
       // 1. Ambient Background Music (looped, low volume)
@@ -30,6 +49,8 @@ export const SoundProvider = ({ children }: { children: React.ReactNode }) => {
         html5: true, // Use HTML5 audio for long tracks
         loop: true,
         volume: 0.25,
+        onplay: () => setIsPlaying(true),
+        onpause: () => setIsPlaying(false),
       });
 
       // 2. Vinyl Crackle (looped, extremely low volume for warmth)
@@ -55,10 +76,18 @@ export const SoundProvider = ({ children }: { children: React.ReactNode }) => {
         src: [birthdayData.typingUrl],
         volume: 0.15,
       });
+
+      window.addEventListener('click', handleFirstInteraction);
+      window.addEventListener('touchstart', handleFirstInteraction);
+      window.addEventListener('keydown', handleFirstInteraction);
     }
 
     return () => {
       // Cleanup on unmount
+      window.removeEventListener('click', handleFirstInteraction);
+      window.removeEventListener('touchstart', handleFirstInteraction);
+      window.removeEventListener('keydown', handleFirstInteraction);
+      
       if (ambientBgRef.current) ambientBgRef.current.unload();
       if (vinylCrackleRef.current) vinylCrackleRef.current.unload();
       if (paperFlipRef.current) paperFlipRef.current.unload();
@@ -117,19 +146,6 @@ export const SoundProvider = ({ children }: { children: React.ReactNode }) => {
       }}
     >
       {children}
-
-      {/* Floating Audio Control Button */}
-      {/* <button
-        onClick={togglePlay}
-        className="fixed bottom-6 right-6 z-[999] flex h-12 w-12 items-center justify-center rounded-full glass-panel hover:bg-white/10 transition-all duration-300 group shadow-lg"
-        title={isPlaying ? "Mute soundtrack" : "Unmute soundtrack"}
-      >
-        {isPlaying ? (
-          <Volume2 className="h-5 w-5 text-white/90 group-hover:scale-110 transition-transform" />
-        ) : (
-          <VolumeX className="h-5 w-5 text-white/50 group-hover:scale-110 transition-transform" />
-        )}
-      </button> */}
     </SoundContext.Provider>
   );
 };
