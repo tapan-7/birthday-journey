@@ -25,13 +25,18 @@ export const FloatingBubbles = ({
     setMounted(true);
   }, []);
 
-  // Generate 20 bubbles from the available funMemories
+  // Generate max 12 bubbles from the available funMemories to keep performance high
   const bubbleItems = useMemo(() => {
     const items = [];
     const funnyNames = ["Gadhedo", "Aalo", "Alien", "Pagala", "Harami", "Haramkhor", "Kukur"];
-    for (let i = 0; i < ALL_PHOTOS.length; i++) {
+    
+    // Shuffle and pick max 12
+    const shuffled = [...ALL_PHOTOS].sort(() => 0.5 - Math.random());
+    const selected = shuffled.slice(0, 12);
+
+    for (let i = 0; i < selected.length; i++) {
       const bubbleWord = funnyNames[i % funnyNames.length];
-      const memory = ALL_PHOTOS[i];
+      const memory = selected[i];
       const size = 60 + Math.random() * 50; // Random size between 60 and 110
       
       const hues = [
@@ -39,12 +44,6 @@ export const FloatingBubbles = ({
         "from-pink-500/20 to-purple-500/20",
         "from-blue-500/20 to-cyan-500/20",
         "from-rose-500/20 to-pink-500/20"
-      ];
-      const glows = [
-        "rgba(168,85,247,.4)",
-        "rgba(236,72,153,.4)",
-        "rgba(59,130,246,.4)",
-        "rgba(244,63,94,.4)"
       ];
       
       const colorIndex = i % hues.length;
@@ -54,12 +53,11 @@ export const FloatingBubbles = ({
         memoryId: memory.id,
         x: Math.random(),
         size,
-        delay: Math.random() * 350, // Massive delay scatter over the new long timeline
-        duration: 200 + Math.random() * 150, // 200s to 350s total loop (visible for only ~10% of this time)
-        swayAmount: 15 + Math.random() * 50, // Random sway distance!
+        delay: Math.random() * 350,
+        duration: 150 + Math.random() * 100, // Faster loop so they appear more often
+        swayAmount: 15 + Math.random() * 50,
         swayDuration: 3 + Math.random() * 4,
         hue: hues[colorIndex],
-        glow: glows[colorIndex],
         bubbleWord
       });
     }
@@ -102,69 +100,54 @@ export const FloatingBubbles = ({
         {bubbleItems.map((item) => {
           const isPopped = poppedBubbles.includes(item.id);
           const memory = ALL_PHOTOS.find((f) => f.id === item.memoryId);
-          const floatDuration = 18 + (item.delay % 10);
 
           return (
-            <AnimatePresence key={item.id}>
-              {!isPopped && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0, filter: "blur(10px)" }}
-                  transition={{ duration: 0.4 }}
-                  style={{
-                    position: "absolute",
-                    left: `calc(${item.x} * (100% - ${item.size}px))`,
-                    top: "100%",
-                    width: item.size,
-                    height: item.size,
-                    willChange: "transform",
-                    animation: `bubble-float-y ${item.duration}s linear infinite`,
-                    animationDelay: `-${item.delay}s`, // Negative delay pre-scatters bubbles
-                    zIndex: 10,
-                  }}
-                >
-                  <motion.button
-                    whileHover={{ scale: 1.15 }}
-                    whileTap={{ scale: 0.85 }}
-                    onClick={() => handleBubbleClick(item.id, item.memoryId)}
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      willChange: "transform",
-                      boxShadow: `inset 0 0 15px rgba(255,255,255,0.15)`,
-                      "--sway-amount": `${item.swayAmount}px`,
-                      animation: `bubble-sway ${item.swayDuration}s ease-in-out infinite alternate`,
-                      animationDelay: `-${item.delay}s`,
-                    } as any}
-                    className={`pointer-events-auto rounded-full bg-gradient-to-tr ${item.hue} border border-white/20 flex flex-col items-center justify-center cursor-pointer select-none hover:brightness-110`}
-                  >
-                    <div className="absolute top-[15%] left-[20%] w-[30%] h-[25%] rounded-full bg-white/30" />
-                    <span className="font-sans text-[11px] font-bold text-white/90 text-center px-1 leading-tight truncate w-full max-w-[80%] uppercase tracking-wider shadow-sm">
-                      {item.bubbleWord}
-                    </span>
-                  </motion.button>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            <div
+              key={item.id}
+              style={{
+                position: "absolute",
+                left: `calc(${item.x} * (100% - ${item.size}px))`,
+                top: "100%",
+                width: item.size,
+                height: item.size,
+                willChange: "transform",
+                animation: `bubble-float-y ${item.duration}s linear infinite`,
+                animationDelay: `-${item.delay}s`,
+                zIndex: 10,
+              }}
+            >
+              <div
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  willChange: "transform",
+                  "--sway-amount": `${item.swayAmount}px`,
+                  animation: `bubble-sway ${item.swayDuration}s ease-in-out infinite alternate`,
+                  animationDelay: `-${item.delay}s`,
+                } as any}
+              >
+                <AnimatePresence>
+                  {!isPopped && (
+                    <motion.button
+                      initial={{ opacity: 0, scale: 0 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0, filter: "blur(10px)" }}
+                      transition={{ duration: 0.3 }}
+                      onClick={() => handleBubbleClick(item.id, item.memoryId)}
+                      className={`w-full h-full pointer-events-auto rounded-full bg-gradient-to-tr ${item.hue} border border-white/20 flex flex-col items-center justify-center cursor-pointer select-none active:scale-90 transition-transform`}
+                      style={{ boxShadow: `inset 0 0 15px rgba(255,255,255,0.15)` }}
+                    >
+                      <div className="absolute top-[15%] left-[20%] w-[30%] h-[25%] rounded-full bg-white/30" />
+                      <span className="font-sans text-[11px] font-bold text-white/90 text-center px-1 leading-tight truncate w-full max-w-[80%] uppercase tracking-wider shadow-sm">
+                        {item.bubbleWord}
+                      </span>
+                    </motion.button>
+                  )}
+                </AnimatePresence>
+              </div>
+            </div>
           );
         })}
-
-        {/* Ambient floating mini particles */}
-        {[...Array(12)].map((_, i) => (
-          <motion.div
-            key={`p-${i}`}
-            className="absolute rounded-full pointer-events-none"
-            style={{
-              left: `${(i * 9.7) % 100}%`,
-              width: 3, height: 3,
-              background: ["#c084fc","#f472b6","#60a5fa","#34d399"][i % 4],
-              opacity: 0.2,
-            }}
-            animate={{ y: [0, -400], opacity: [0.2, 0] }}
-            transition={{ repeat: Infinity, duration: 6 + i, delay: i * 0.8, ease: "linear" }}
-          />
-        ))}
       </div>
 
       {/* Popped memory overlay (Dubai Safari Style) */}

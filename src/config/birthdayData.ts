@@ -157,11 +157,11 @@ export const birthdayData: BirthdayConfig = {
     },
     {
       id: "moment-3",
-      image: "/Alien/IMG-20250130-WA0029.jpg",
-      title: "Our Unplanned Adventures",
+      image: "/Alien/IMG-20250127-WA0142.jpg",
+      title: "Our Planned Adventures",
       caption: "Getting lost in the right places.",
       story:
-        "We always ended up in the most random coffee shops, walking down streets we didn't know, laughing at things that made absolutely no sense to anyone else.",
+        "We planned this actually. The it went, it was best thing happent to me for my travel journey. ",
       rotation: -2,
     },
   ],
