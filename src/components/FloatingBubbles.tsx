@@ -1,6 +1,8 @@
 import { useState, useEffect, useMemo } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { birthdayData, FunMemory } from "@/config/birthdayData";
+import { birthdayData } from "@/config/birthdayData";
+import { ALL_PHOTOS, PhotoItem } from "./PolaroidDriftGallery";
 import { Sparkles, X, ArrowRight } from "lucide-react";
 import { useSound } from "./SoundController";
 import confetti from "canvas-confetti";
@@ -15,17 +17,21 @@ export const FloatingBubbles = ({
   collectedStars,
 }: FloatingBubblesProps) => {
   const { playPaperFlip } = useSound();
-  const [activeMemory, setActiveMemory] = useState<FunMemory | null>(null);
+  const [activeMemory, setActiveMemory] = useState<PhotoItem | null>(null);
   const [poppedBubbles, setPoppedBubbles] = useState<string[]>([]);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Generate 20 bubbles from the available funMemories
   const bubbleItems = useMemo(() => {
     const items = [];
-    const memories = birthdayData.funMemories;
-    if (!memories || memories.length === 0) return [];
-    
-    for (let i = 0; i < 20; i++) {
-      const memory = memories[i % memories.length];
+    const funnyNames = ["Gadhedo", "Aalo", "Alien", "Pagala", "Harami", "Haramkhor", "Kukur"];
+    for (let i = 0; i < ALL_PHOTOS.length; i++) {
+      const bubbleWord = funnyNames[i % funnyNames.length];
+      const memory = ALL_PHOTOS[i];
       const size = 60 + Math.random() * 50; // Random size between 60 and 110
       
       const hues = [
@@ -48,9 +54,10 @@ export const FloatingBubbles = ({
         memoryId: memory.id,
         x: `${5 + Math.random() * 85}%`, // Random X position (5% to 90%)
         size,
-        delay: Math.random() * 5, // Random initial delay
+        delay: Math.random() * 25, // Random initial delay up to 25s for 77 bubbles
         hue: hues[colorIndex],
-        glow: glows[colorIndex]
+        glow: glows[colorIndex],
+        bubbleWord
       });
     }
     return items;
@@ -60,9 +67,8 @@ export const FloatingBubbles = ({
     playPaperFlip();
     onCollectStar(memoryId);
     
-    const fun = birthdayData.funMemories.find((f) => f.id === memoryId);
+    const fun = ALL_PHOTOS.find((f) => f.id === memoryId);
     if (fun) {
-      setActiveMemory(fun);
       confetti({
         particleCount: 20,
         spread: 60,
@@ -73,6 +79,12 @@ export const FloatingBubbles = ({
 
     // Add to popped state
     setPoppedBubbles((prev) => [...prev, bubbleId]);
+    
+    if (fun) {
+      setTimeout(() => {
+        setActiveMemory(fun);
+      }, 400); // Delay so the bubble pops before opening the dialog
+    }
 
     // Respawn after 5 seconds
     setTimeout(() => {
@@ -115,7 +127,7 @@ export const FloatingBubbles = ({
       <div className="relative w-full" style={{ height: "450px" }}>
         {bubbleItems.map((item) => {
           const isPopped = poppedBubbles.includes(item.id);
-          const memory = birthdayData.funMemories.find((f) => f.id === item.memoryId);
+          const memory = ALL_PHOTOS.find((f) => f.id === item.memoryId);
 
           return (
             <AnimatePresence key={item.id}>
@@ -137,14 +149,15 @@ export const FloatingBubbles = ({
                     left: item.x,
                     width: item.size,
                     height: item.size,
-                    boxShadow: `0 0 20px ${item.glow}, inset 0 0 15px rgba(255,255,255,0.15)`,
+                    willChange: "transform, opacity",
+                    boxShadow: `inset 0 0 15px rgba(255,255,255,0.15)`,
                   }}
-                  className={`rounded-full bg-gradient-to-tr ${item.hue} border border-white/20 flex flex-col items-center justify-center cursor-pointer select-none backdrop-blur-sm z-10`}
+                  className={`rounded-full bg-gradient-to-tr ${item.hue} border border-white/20 flex flex-col items-center justify-center cursor-pointer select-none z-10 hover:brightness-110`}
                 >
-                  <div className="absolute top-[15%] left-[20%] w-[30%] h-[25%] rounded-full bg-white/30 blur-[2px]" />
+                  <div className="absolute top-[15%] left-[20%] w-[30%] h-[25%] rounded-full bg-white/30" />
                   <Sparkles className="h-3 w-3 text-white/50 mb-0.5" />
-                  <span className="font-sans text-[9px] font-bold text-white/70 text-center px-1 leading-tight truncate w-full max-w-[80%]">
-                    {memory?.jokeTitle.split(" ").slice(0, 1).join(" ")}
+                  <span className="font-sans text-[11px] font-bold text-white/90 text-center px-1 leading-tight truncate w-full max-w-[80%] uppercase tracking-wider shadow-sm">
+                    {item.bubbleWord}
                   </span>
                 </motion.button>
               )}
@@ -170,15 +183,16 @@ export const FloatingBubbles = ({
       </div>
 
       {/* Popped memory overlay (Dubai Safari Style) */}
-      <AnimatePresence>
-        {activeMemory && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[500] flex items-center justify-center p-4 sm:p-6 bg-black/70 backdrop-blur-xl"
-            onClick={() => setActiveMemory(null)}
-          >
+      {mounted && createPortal(
+        <AnimatePresence>
+          {activeMemory && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 bg-black/70 backdrop-blur-xl"
+              onClick={() => setActiveMemory(null)}
+            >
             <motion.div
               initial={{ scale: 0.9, y: 20, opacity: 0 }}
               animate={{ scale: 1, y: 0, opacity: 1 }}
@@ -190,7 +204,7 @@ export const FloatingBubbles = ({
               {/* Background Image filling the card */}
               <div 
                 className="absolute inset-0 bg-cover bg-center"
-                style={{ backgroundImage: `url(${activeMemory.image})` }}
+                style={{ backgroundImage: `url('${activeMemory.image}')` }}
               />
               
               {/* Top Gradient for text readability */}
@@ -208,26 +222,28 @@ export const FloatingBubbles = ({
                 <div className="flex items-end justify-between gap-4">
                   <div className="flex-1">
                     <h4 className="font-sans text-2xl font-bold text-white mb-2 leading-tight drop-shadow-md">
-                      {activeMemory.jokeTitle}
+                      {activeMemory.title}
                     </h4>
                     <p className="font-sans text-sm text-stone-200 leading-relaxed drop-shadow-md opacity-90 line-clamp-3">
                       {activeMemory.caption}
                     </p>
                   </div>
                   
-                  {/* Arrow Button */}
+                  {/* Close Button */}
                   <button 
                     onClick={() => setActiveMemory(null)}
                     className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white shrink-0 hover:bg-white/30 hover:scale-105 transition-all shadow-[0_0_15px_rgba(255,255,255,0.2)]"
                   >
-                    <ArrowRight className="w-5 h-5" />
+                    <X className="w-5 h-5" />
                   </button>
                 </div>
               </div>
             </motion.div>
           </motion.div>
         )}
-      </AnimatePresence>
+      </AnimatePresence>,
+      document.body
+    )}
     </div>
   );
 };

@@ -17,11 +17,11 @@ export const EndingSection = ({ onReplayClick }: EndingSectionProps) => {
 
   // Coordinates and images for floating end memories
   const floatingEndMemories = [
-    { image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=300&auto=format&fit=crop&q=60", delay: 0, left: "10%", size: 100 },
-    { image: "https://images.unsplash.com/photo-1543807535-eceef0bc6599?w=300&auto=format&fit=crop&q=60", delay: 2, left: "75%", size: 120 },
-    { image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=300&auto=format&fit=crop&q=60", delay: 4, left: "20%", size: 110 },
-    { image: "https://images.unsplash.com/photo-1481841587457-5c99fcb6b7dd?w=300&auto=format&fit=crop&q=60", delay: 1, left: "85%", size: 90 },
-    { image: "https://images.unsplash.com/photo-1482849737880-498de71dda8d?w=300&auto=format&fit=crop&q=60", delay: 3, left: "65%", size: 115 },
+    { image: "/Alien/IMG-20230620-WA0001.jpg", delay: 0, left: "10%", size: 100 },
+    { image: "/Alien/IMG-20240314-WA0003.jpg", delay: 2, left: "75%", size: 120 },
+    { image: "/Alien/IMG_20250125_233813758.jpg", delay: 4, left: "20%", size: 110 },
+    { image: "/Alien/IMG_20250126_065058525.jpg", delay: 1, left: "85%", size: 90 },
+    { image: "/Alien/IMG_20250126_134338452.jpg", delay: 3, left: "65%", size: 115 },
   ];
 
   return (

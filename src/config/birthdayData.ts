@@ -140,7 +140,7 @@ export const birthdayData: BirthdayConfig = {
     {
       id: "moment-1",
       image:
-        "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&auto=format&fit=crop&q=80",
+        "/Alien/IMG_8150.JPG",
       title: "How It All Started",
       caption: "We started as strangers...",
       story:
@@ -150,7 +150,7 @@ export const birthdayData: BirthdayConfig = {
     {
       id: "moment-2",
       image:
-        "https://images.unsplash.com/photo-1543807535-eceef0bc6599?w=600&auto=format&fit=crop&q=80",
+        "/Alien/IMG-20250127-WA0002.jpg",
       title: "The Midnight Conversations",
       caption: "...and somehow became part of each other's lives.",
       story:
@@ -160,7 +160,7 @@ export const birthdayData: BirthdayConfig = {
     {
       id: "moment-3",
       image:
-        "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=600&auto=format&fit=crop&q=80",
+        "/Alien/IMG-20250130-WA0029.jpg",
       title: "Our Unplanned Adventures",
       caption: "Getting lost in the right places.",
       story:
@@ -174,7 +174,7 @@ export const birthdayData: BirthdayConfig = {
     {
       id: "fun-1",
       image:
-        "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&auto=format&fit=crop&q=80",
+        "/Alien/IMG_20250125_124514.jpg",
       jokeTitle: "The Cafe Incident",
       caption:
         "The time you tried to pay with your gym membership card and didn't realize for 5 full minutes.",
@@ -184,7 +184,7 @@ export const birthdayData: BirthdayConfig = {
     {
       id: "fun-2",
       image:
-        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80",
+        "/Alien/IMG_20250125_164800137.jpg",
       jokeTitle: "Uncontrollable Laughs",
       caption:
         "Laughing so hard that tea literally came out of your nose. Still the highlight of my year.",
@@ -194,7 +194,7 @@ export const birthdayData: BirthdayConfig = {
     {
       id: "fun-3",
       image:
-        "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&auto=format&fit=crop&q=80",
+        "/Alien/IMG_20250126_060417037_MP.jpg",
       jokeTitle: "Sleeping Everywhere",
       caption:
         "You can sleep in a loud club, in a moving car, or standing up. It's honestly a superpower.",
@@ -204,7 +204,7 @@ export const birthdayData: BirthdayConfig = {
     {
       id: "fun-4",
       image:
-        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&auto=format&fit=crop&q=80",
+        "/Alien/IMG_20250126_065033682.jpg",
       jokeTitle: "Typo Queen",
       caption:
         "'I'm running late' autocorrected to 'I'm eating slate'. Now we say it every single time.",
@@ -224,7 +224,7 @@ export const birthdayData: BirthdayConfig = {
     {
       id: "em-1",
       image:
-        "https://images.unsplash.com/photo-1481841587457-5c99fcb6b7dd?w=800&auto=format&fit=crop&q=80",
+        "/Alien/IMG_20250126_070417629.jpg",
       quote: "You probably don't realize how important you are to people.",
       story:
         "In a world where everyone is constantly busy, you showed up. You listened when I felt small, and you reminded me of who I was when I forgot. That is your magic.",
@@ -232,7 +232,7 @@ export const birthdayData: BirthdayConfig = {
     {
       id: "em-2",
       image:
-        "https://images.unsplash.com/photo-1482849737880-498de71dda8d?w=800&auto=format&fit=crop&q=80",
+        "/Alien/IMG_20250126_134902112.jpg",
       quote: "Ordinary days became less ordinary because of you.",
       story:
         "We don't need fancy parties or grand adventures. Just sitting in your room, listening to music, and talking about life makes me feel incredibly lucky to have you.",

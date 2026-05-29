@@ -49,7 +49,7 @@ export const HeroSection = ({ onStartClick }: HeroSectionProps) => {
           transition={{ duration: 3, ease: "easeOut" }}
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=1600&auto=format&fit=crop&q=80')`,
+            backgroundImage: `url('/Alien/IMG_20250125_155217829.jpg')`,
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#09080a] via-black/40 to-transparent" />
@@ -60,7 +60,21 @@ export const HeroSection = ({ onStartClick }: HeroSectionProps) => {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,rgba(251,247,244,0.08)_0%,transparent_50%)] pointer-events-none" />
 
       {/* Hero content */}
-      <div className="z-10 max-w-3xl w-full text-center space-y-6">
+      <div className="z-10 max-w-3xl w-full text-center space-y-6 flex flex-col items-center">
+        
+        {/* Profile / Hero Picture */}
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 1.5, type: "spring", damping: 15, delay: 0.3 }}
+          className="w-40 h-40 md:w-48 md:h-48 rounded-full border-2 border-white/20 shadow-[0_0_50px_rgba(255,255,255,0.15)] overflow-hidden bg-white/5 p-1 mb-2"
+        >
+          <img 
+            src="/Alien/DDO07689.JPG"
+            alt="Best Friend"
+            className="w-full h-full object-cover rounded-full filter brightness-105"
+          />
+        </motion.div>
         
         {/* Animated sparkling badge */}
         <motion.div
