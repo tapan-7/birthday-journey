@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 /**
  * HeroPicture — aesthetic floating portrait for the hero section.
@@ -15,7 +16,7 @@ interface HeroPictureProps {
 }
 
 export const HeroPicture = ({
-  src = "/images/aalu.jpg",
+  src = "/Alien/IMG-20250317-WA0005.jpg",
   name = "Aalu",
 }: HeroPictureProps) => {
   return (
@@ -81,9 +82,11 @@ export const HeroPicture = ({
         }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src={src}
           alt={name}
+          height={500}
+          width={500}
           className="w-full h-full object-cover object-top"
           style={{ filter: "brightness(1.05) saturate(1.1) contrast(1.02)" }}
           onError={(e) => {
@@ -114,22 +117,22 @@ export const HeroPicture = ({
 
       {/* Floating sparkle dots around the portrait */}
       {[
-        { angle:  15, dist: 115, size: 5, delay: 0,   color: "#f0abfc" },
-        { angle:  80, dist: 118, size: 4, delay: 1.2, color: "#fbbf24" },
+        { angle: 15, dist: 115, size: 5, delay: 0, color: "#f0abfc" },
+        { angle: 80, dist: 118, size: 4, delay: 1.2, color: "#fbbf24" },
         { angle: 145, dist: 112, size: 6, delay: 0.5, color: "#7dd3fc" },
         { angle: 220, dist: 116, size: 4, delay: 1.8, color: "#f472b6" },
         { angle: 290, dist: 114, size: 5, delay: 0.9, color: "#a5f3fc" },
         { angle: 340, dist: 117, size: 3, delay: 2.3, color: "#c4b5fd" },
       ].map((dot, i) => {
         const rad = (dot.angle * Math.PI) / 180;
-        const x   = 130 + dot.dist * Math.cos(rad) - dot.size / 2;
-        const y   = 130 + dot.dist * Math.sin(rad) - dot.size / 2;
+        const x = 130 + dot.dist * Math.cos(rad) - dot.size / 2;
+        const y = 130 + dot.dist * Math.sin(rad) - dot.size / 2;
         return (
           <motion.div
             key={i}
             animate={{
-              scale:   [0.8, 1.4, 0.8],
-              opacity: [0.4, 1,   0.4],
+              scale: [0.8, 1.4, 0.8],
+              opacity: [0.4, 1, 0.4],
             }}
             transition={{
               repeat: Infinity,
@@ -139,10 +142,10 @@ export const HeroPicture = ({
             }}
             className="absolute rounded-full pointer-events-none"
             style={{
-              left:      x,
-              top:       y,
-              width:     dot.size,
-              height:    dot.size,
+              left: x,
+              top: y,
+              width: dot.size,
+              height: dot.size,
               background: dot.color,
               boxShadow: `0 0 ${dot.size * 3}px ${dot.color}`,
             }}
@@ -153,7 +156,12 @@ export const HeroPicture = ({
       {/* Name badge floating below */}
       <motion.div
         animate={{ y: [0, -4, 0] }}
-        transition={{ repeat: Infinity, duration: 4, delay: 0.5, ease: "easeInOut" }}
+        transition={{
+          repeat: Infinity,
+          duration: 4,
+          delay: 0.5,
+          ease: "easeInOut",
+        }}
         className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap z-20"
       >
         <div

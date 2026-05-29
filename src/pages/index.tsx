@@ -486,7 +486,7 @@ export default function Home() {
                     className="shrink-0"
                   >
                     <HeroPicture
-                      src="/Alien/IMG-20250317-WA0001.jpg"
+                      src="/Alien/IMG-20250317-WA0005.jpg"
                       name="Aalu"
                     />
                   </motion.div>

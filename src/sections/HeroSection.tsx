@@ -41,7 +41,6 @@ export const HeroSection = ({ onStartClick }: HeroSectionProps) => {
 
   return (
     <div className="relative min-h-screen w-full flex flex-col items-center justify-center bg-[#09080a] text-white px-6 overflow-hidden select-none">
-      
       {/* Background Image with blur, dark overlay, and slow zoom parallax */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <motion.div
@@ -62,15 +61,19 @@ export const HeroSection = ({ onStartClick }: HeroSectionProps) => {
 
       {/* Hero content */}
       <div className="z-10 max-w-3xl w-full text-center space-y-6 flex flex-col items-center">
-        
         {/* Profile / Hero Picture */}
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1.5, type: "spring", damping: 15, delay: 0.3 }}
+          transition={{
+            duration: 1.5,
+            type: "spring",
+            damping: 15,
+            delay: 0.3,
+          }}
           className="w-40 h-40 md:w-48 md:h-48 rounded-full border-2 border-white/20 shadow-[0_0_50px_rgba(255,255,255,0.15)] overflow-hidden bg-white/5 p-1 mb-2 relative"
         >
-          <Image 
+          <Image
             src="/Alien/DDO07689.JPG"
             alt="Best Friend"
             fill
@@ -79,7 +82,7 @@ export const HeroSection = ({ onStartClick }: HeroSectionProps) => {
             priority
           />
         </motion.div>
-        
+
         {/* Animated sparkling badge */}
         <motion.div
           initial={{ scale: 0, opacity: 0 }}
@@ -87,7 +90,6 @@ export const HeroSection = ({ onStartClick }: HeroSectionProps) => {
           transition={{ type: "spring", delay: 0.2, damping: 15 }}
           className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-semibold uppercase tracking-widest text-rose-300"
         >
-
           <span>A Best Friend's Gift</span>
         </motion.div>
 
