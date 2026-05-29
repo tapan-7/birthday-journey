@@ -313,15 +313,6 @@ export default function Home() {
               <div className="max-w-2xl w-full space-y-10 z-10 flex flex-col items-center">
                 {/* Badge */}
                 <motion.div
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3, duration: 1 }}
-                  className="badge-pulse px-4 py-1.5 rounded-full bg-purple-500/10 border border-purple-400/30 text-purple-300 text-[11px] font-semibold uppercase tracking-widest"
-                >
-                  ✦ A Living Memory Universe ✦
-                </motion.div>
-
-                <motion.div
                   initial={{ opacity: 0, scale: 0.85, y: 20 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
@@ -336,7 +327,7 @@ export default function Home() {
                   <h1 className="text-shimmer font-cinematic text-6xl md:text-8xl font-extrabold tracking-tight leading-none">
                     Happy Birthday,
                     <br />
-                    Aalu
+                    Gadhedo
                   </h1>
                   <p className="font-sans text-stone-400 text-sm font-light leading-relaxed max-w-md mx-auto">
                     "Some journeys begin unexpectedly."
