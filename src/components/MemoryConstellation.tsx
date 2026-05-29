@@ -31,7 +31,6 @@ export const MemoryConstellation = ({
     const moment = birthdayData.moments.find((m) => m.id === momentId);
     if (moment) {
       setActiveMoment(moment);
-      onCardClick(moment);
     }
   };
 
