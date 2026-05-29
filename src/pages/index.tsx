@@ -18,7 +18,6 @@ import { DashboardLetters } from "@/components/DashboardLetters";
 import { WishingWell } from "@/components/WishingWell";
 import { OurLittleWorld } from "@/components/OurLittleWorld";
 
-// Icons
 import { Home as HomeIcon, Lock, Gift, Star, Compass } from "lucide-react";
 import { HeroPicture } from "@/components/HeroPicture";
 
@@ -192,16 +191,15 @@ export default function Home() {
   return (
     <SoundProvider>
       <Head>
-        <title>{birthdayData.landingTitle}</title>
+        <title>Happy Birthday Aalu</title>
         <meta
-          name="description"
-          content="Happy Birthday Aalu — A bioluminescent universe of memories."
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
         />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <div className="relative min-h-screen bg-[#06040a] text-stone-100 overflow-x-hidden font-sans">
+      <div
+        className={`relative bg-[#06040a] text-stone-100 font-sans ${!hasDivedIn ? "h-[100dvh] overflow-hidden" : "min-h-screen overflow-x-hidden"}`}
+      >
         {/* Particle Backdrop & Film Grain */}
         <BioluminescentCanvas />
         <FilmGrain />
@@ -241,7 +239,7 @@ export default function Home() {
               initial={{ opacity: 1 }}
               exit={{ opacity: 0, scale: 1.05 }}
               transition={{ duration: 1.4, ease: "easeInOut" }}
-              className="relative z-50 min-h-screen flex flex-col items-center justify-center px-6 text-center select-none overflow-hidden"
+              className="relative z-50 h-[100dvh] w-full flex flex-col items-center justify-center px-6 text-center select-none overflow-hidden"
             >
               {/* Deep background gradient */}
               <div className="absolute inset-0 bg-gradient-to-b from-[#0a0612] via-[#06040c] to-[#030208] z-0" />
@@ -387,30 +385,62 @@ export default function Home() {
                       onMouseLeave={() => setIsHolding(false)}
                       onTouchStart={() => setIsHolding(true)}
                       onTouchEnd={() => setIsHolding(false)}
-                      className="hold-to-dive relative w-44 h-44 rounded-full border border-purple-500/40 flex items-center justify-center bg-purple-950/20 cursor-pointer overflow-hidden group select-none"
+                      className="hold-to-dive relative w-36 h-36 rounded-full flex items-center justify-center cursor-pointer overflow-visible group select-none touch-none"
                     >
-                      {/* Radial progress fill */}
-                      <div
-                        style={{
-                          clipPath: `inset(${100 - holdProgress}% 0px 0px 0px)`,
-                        }}
-                        className="absolute inset-0 bg-gradient-to-t from-purple-600/40 via-pink-500/30 to-rose-500/20 transition-all duration-75"
-                      />
+                      {/* Water Ripple Effects */}
+                      <AnimatePresence>
+                        {isHolding && (
+                          <>
+                            <motion.div
+                              initial={{ scale: 0.8, opacity: 0.8 }}
+                              animate={{ scale: 2.5, opacity: 0 }}
+                              transition={{
+                                repeat: Infinity,
+                                duration: 1.5,
+                                ease: "easeOut",
+                              }}
+                              className="absolute inset-0 rounded-full border border-purple-500/60 bg-purple-500/20"
+                            />
+                            <motion.div
+                              initial={{ scale: 0.8, opacity: 0.8 }}
+                              animate={{ scale: 2.5, opacity: 0 }}
+                              transition={{
+                                repeat: Infinity,
+                                duration: 1.5,
+                                delay: 0.5,
+                                ease: "easeOut",
+                              }}
+                              className="absolute inset-0 rounded-full border border-pink-500/60 bg-pink-500/20"
+                            />
+                            <motion.div
+                              initial={{ scale: 0.8, opacity: 0.8 }}
+                              animate={{ scale: 2.5, opacity: 0 }}
+                              transition={{
+                                repeat: Infinity,
+                                duration: 1.5,
+                                delay: 1.0,
+                                ease: "easeOut",
+                              }}
+                              className="absolute inset-0 rounded-full border border-rose-500/60 bg-rose-500/20"
+                            />
+                          </>
+                        )}
+                      </AnimatePresence>
+
+                      {/* Main Button Background */}
+                      <div className="absolute inset-0 rounded-full border border-purple-500/40 bg-purple-950/40 backdrop-blur-sm overflow-hidden">
+                        {/* Radial progress fill */}
+                        <div
+                          style={{
+                            clipPath: `inset(${100 - holdProgress}% 0px 0px 0px)`,
+                          }}
+                          className="absolute inset-0 bg-gradient-to-t from-purple-600/60 via-pink-500/50 to-rose-500/40 transition-all duration-75"
+                        />
+                      </div>
+
                       {/* Inner glowing center */}
-                      <div className="z-10 text-center space-y-2">
-                        <motion.div
-                          animate={{
-                            scale: isHolding ? [1, 1.2, 1] : 1,
-                            rotate: isHolding ? 360 : 0,
-                          }}
-                          transition={{
-                            repeat: isHolding ? Infinity : 0,
-                            duration: 1,
-                          }}
-                        >
-                          <div className="h-7 w-7 text-purple-300 mx-auto" />
-                        </motion.div>
-                        <span className="font-sans text-[11px] uppercase font-bold tracking-widest text-stone-200 block">
+                      <div className="z-10 text-center space-y-2 relative">
+                        <span className="font-sans text-[11px] uppercase font-bold tracking-widest text-stone-200 block drop-shadow-md">
                           {isHolding ? "Diving..." : "Hold to Dive"}
                         </span>
                         {isHolding && (

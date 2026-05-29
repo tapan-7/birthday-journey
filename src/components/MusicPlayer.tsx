@@ -11,13 +11,13 @@ export const MusicPlayer = () => {
   const barCount = 6;
 
   return (
-    <motion.div 
+    <motion.div
       layout
       className="relative flex items-center bg-black/50 border border-white/10 rounded-full shadow-lg backdrop-blur select-none cursor-pointer overflow-hidden"
       onClick={() => !isExpanded && setIsExpanded(true)}
       style={{
         padding: isExpanded ? "6px 16px 6px 6px" : "6px",
-        gap: isExpanded ? "16px" : "0px"
+        gap: isExpanded ? "16px" : "0px",
       }}
     >
       {/* Circular Button / Vinyl Icon */}
@@ -37,7 +37,7 @@ export const MusicPlayer = () => {
       >
         <div className="w-3 h-3 rounded-full bg-black border border-white/40 z-10" />
         <Music className="h-4 w-4 text-stone-400 absolute" />
-        
+
         {/* Glow effect when playing and collapsed */}
         {isPlaying && !isExpanded && (
           <div className="absolute inset-0 rounded-full animate-ping bg-purple-500/30 -z-10" />
@@ -57,10 +57,10 @@ export const MusicPlayer = () => {
             {/* Title & Artist */}
             <div className="flex flex-col justify-center min-w-[80px]">
               <h4 className="font-sans text-xs font-semibold text-stone-100 leading-tight">
-                Perfect
+                Aamaran
               </h4>
               <p className="font-sans text-[10px] text-stone-400 leading-none mt-0.5">
-                Ed Sheeran
+                Sai Pallavi Intro
               </p>
             </div>
 

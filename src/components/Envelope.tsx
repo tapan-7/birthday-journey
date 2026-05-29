@@ -58,7 +58,7 @@ export const Envelope = ({ title, paragraphs }: EnvelopeProps) => {
             y: isOpen ? -1 : 0,
             zIndex: isOpen ? 0 : 12,
           }}
-          transition={{ duration: 0.6, ease: "easeInOut" }}
+          transition={{ duration: 0.6, delay: isOpen ? 0 : 0.4, ease: "easeInOut" }}
         />
 
         {/* Envelope Bottom/Side Flaps (Combined CSS visual) */}
@@ -78,7 +78,7 @@ export const Envelope = ({ title, paragraphs }: EnvelopeProps) => {
             y: isOpen ? -80 : 0,
             scale: isOpen ? 1.02 : 0.95,
           }}
-          transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+          transition={{ duration: 0.6, delay: isOpen ? 0.3 : 0, ease: "easeOut" }}
         >
           <h5 className="font-handwritten text-[#2d2424] text-xl font-bold border-b border-stone-200 pb-1 mb-1">
             {title}

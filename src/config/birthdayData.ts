@@ -127,7 +127,7 @@ export const birthdayData: BirthdayConfig = {
 
   // Audio files hosted on public/audio/ or royalty free URL placeholders for easy running
   // We'll create these files or use lightweight online audio URLs if needed
-  bgMusicUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", // beautiful ambient music
+  bgMusicUrl: "/sai_pallavi_s_intro.mp3", // beautiful ambient music
   vinylCrackleUrl:
     "https://assets.mixkit.co/active_storage/sfx/2568/2568-84.wav", // Vinyl crackle sample
   paperFlipUrl: "https://assets.mixkit.co/active_storage/sfx/1487/1487-84.wav", // paper flip/rustle

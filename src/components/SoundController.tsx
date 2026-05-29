@@ -1,7 +1,6 @@
 import { useEffect, useState, createContext, useContext, useRef } from "react";
 import { Howl } from "howler";
 import { birthdayData } from "@/config/birthdayData";
-import { Volume2, VolumeX } from "lucide-react";
 
 interface SoundContextType {
   isPlaying: boolean;
@@ -25,7 +24,7 @@ export const SoundProvider = ({ children }: { children: React.ReactNode }) => {
     const handleFirstInteraction = () => {
       const ambientBg = ambientBgRef.current;
       const vinylCrackle = vinylCrackleRef.current;
-      
+
       if (ambientBg && !ambientBg.playing()) {
         ambientBg.play();
         ambientBg.fade(0, 0.25, 2000);
@@ -36,9 +35,9 @@ export const SoundProvider = ({ children }: { children: React.ReactNode }) => {
       }
 
       // Remove listeners once audio is triggered
-      window.removeEventListener('click', handleFirstInteraction);
-      window.removeEventListener('touchstart', handleFirstInteraction);
-      window.removeEventListener('keydown', handleFirstInteraction);
+      window.removeEventListener("click", handleFirstInteraction);
+      window.removeEventListener("touchstart", handleFirstInteraction);
+      window.removeEventListener("keydown", handleFirstInteraction);
     };
 
     // Only run on client-side
@@ -48,7 +47,7 @@ export const SoundProvider = ({ children }: { children: React.ReactNode }) => {
         src: [birthdayData.bgMusicUrl],
         html5: true, // Use HTML5 audio for long tracks
         loop: true,
-        volume: 0.25,
+        volume: 0.15,
         onplay: () => setIsPlaying(true),
         onpause: () => setIsPlaying(false),
       });
@@ -77,17 +76,17 @@ export const SoundProvider = ({ children }: { children: React.ReactNode }) => {
         volume: 0.15,
       });
 
-      window.addEventListener('click', handleFirstInteraction);
-      window.addEventListener('touchstart', handleFirstInteraction);
-      window.addEventListener('keydown', handleFirstInteraction);
+      window.addEventListener("click", handleFirstInteraction);
+      window.addEventListener("touchstart", handleFirstInteraction);
+      window.addEventListener("keydown", handleFirstInteraction);
     }
 
     return () => {
       // Cleanup on unmount
-      window.removeEventListener('click', handleFirstInteraction);
-      window.removeEventListener('touchstart', handleFirstInteraction);
-      window.removeEventListener('keydown', handleFirstInteraction);
-      
+      window.removeEventListener("click", handleFirstInteraction);
+      window.removeEventListener("touchstart", handleFirstInteraction);
+      window.removeEventListener("keydown", handleFirstInteraction);
+
       if (ambientBgRef.current) ambientBgRef.current.unload();
       if (vinylCrackleRef.current) vinylCrackleRef.current.unload();
       if (paperFlipRef.current) paperFlipRef.current.unload();
