@@ -19,18 +19,7 @@ import { WishingWell } from "@/components/WishingWell";
 import { OurLittleWorld } from "@/components/OurLittleWorld";
 
 // Icons
-import {
-  Home as HomeIcon,
-  MailOpen,
-  Lock,
-  Coins,
-  Gift,
-  Star,
-  Heart,
-  Compass,
-  Volume2,
-  VolumeX,
-} from "lucide-react";
+import { Home as HomeIcon, Lock, Gift, Star, Compass } from "lucide-react";
 import { HeroPicture } from "@/components/HeroPicture";
 
 export default function Home() {

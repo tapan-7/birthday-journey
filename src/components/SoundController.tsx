@@ -119,7 +119,7 @@ export const SoundProvider = ({ children }: { children: React.ReactNode }) => {
       {children}
 
       {/* Floating Audio Control Button */}
-      <button
+      {/* <button
         onClick={togglePlay}
         className="fixed bottom-6 right-6 z-[999] flex h-12 w-12 items-center justify-center rounded-full glass-panel hover:bg-white/10 transition-all duration-300 group shadow-lg"
         title={isPlaying ? "Mute soundtrack" : "Unmute soundtrack"}
@@ -129,7 +129,7 @@ export const SoundProvider = ({ children }: { children: React.ReactNode }) => {
         ) : (
           <VolumeX className="h-5 w-5 text-white/50 group-hover:scale-110 transition-transform" />
         )}
-      </button>
+      </button> */}
     </SoundContext.Provider>
   );
 };
