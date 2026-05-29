@@ -112,7 +112,7 @@ export const FloatingBubbles = ({
       </div>
 
       {/* Bubble play field */}
-      <div className="relative w-full overflow-hidden" style={{ height: "450px" }}>
+      <div className="relative w-full" style={{ height: "450px" }}>
         {bubbleItems.map((item) => {
           const isPopped = poppedBubbles.includes(item.id);
           const memory = birthdayData.funMemories.find((f) => f.id === item.memoryId);

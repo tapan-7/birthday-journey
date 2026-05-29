@@ -75,7 +75,7 @@ export const PolaroidDriftGallery = ({
   };
 
   return (
-    <div className="relative w-full flex flex-col overflow-hidden py-10">
+    <div className="relative w-full flex flex-col py-10">
       {/* Section label */}
       <div className="text-center mb-10 z-10">
         <motion.p
@@ -104,7 +104,7 @@ export const PolaroidDriftGallery = ({
       <div className="relative w-full flex flex-col gap-10 marquee-container py-4">
         
         {/* ROW 1: Scrolling Left */}
-        <div className="w-full overflow-hidden flex">
+        <div className="w-full flex">
           <div className="flex w-max animate-marquee-left gap-8 pr-8">
             {[...row1, ...row1].map((item, i) => {
               const isCollected = collectedStars.includes(`polaroid-${item.id}`);
@@ -137,7 +137,7 @@ export const PolaroidDriftGallery = ({
         </div>
 
         {/* ROW 2: Scrolling Right */}
-        <div className="w-full overflow-hidden flex">
+        <div className="w-full flex">
           <div className="flex w-max animate-marquee-right gap-8 pr-8" style={{ marginLeft: "-50%" }}>
             {[...row2, ...row2].map((item, i) => {
               const isCollected = collectedStars.includes(`polaroid-${item.id}`);
@@ -167,10 +167,6 @@ export const PolaroidDriftGallery = ({
             })}
           </div>
         </div>
-
-        {/* Fade gradients on edges for smooth entry/exit */}
-        <div className="absolute inset-y-0 left-0 w-[15%] bg-gradient-to-r from-[#06040a] to-transparent pointer-events-none z-10" />
-        <div className="absolute inset-y-0 right-0 w-[15%] bg-gradient-to-l from-[#06040a] to-transparent pointer-events-none z-10" />
       </div>
 
       {/* Expanded Photo View */}

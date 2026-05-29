@@ -455,7 +455,7 @@ export default function Home() {
               transition={{ duration: 1.2 }}
             >
               {/* Floating Sidebar Navigation */}
-              <nav className="floating-sidebar hidden md:flex">
+              <nav className="floating-sidebar hidden md:flex flex-col gap-2.5">
                 {navItems.map((item) => (
                   <button
                     key={item.id}
