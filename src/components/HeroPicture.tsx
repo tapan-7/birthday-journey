@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
 
 /**
  * HeroPicture — aesthetic floating portrait for the hero section.
@@ -19,6 +21,8 @@ export const HeroPicture = ({
   src = "/Alien/IMG-20250317-WA0005.jpg",
   name = "Aalu",
 }: HeroPictureProps) => {
+  const [isLoading, setIsLoading] = useState(true);
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.8, y: 30 }}
@@ -81,13 +85,19 @@ export const HeroPicture = ({
           ].join(", "),
         }}
       >
+        {isLoading && (
+          <div className="absolute inset-0 bg-stone-800/80 animate-pulse flex items-center justify-center z-0 rounded-full">
+            <Loader2 className="w-8 h-8 text-stone-500 animate-spin" />
+          </div>
+        )}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <Image
           src={src}
           alt={name}
           height={500}
           width={500}
-          className="w-full h-full object-cover object-top"
+          className={`w-full h-full object-cover object-top ${isLoading ? "opacity-0" : "opacity-100"} transition-opacity duration-500 relative z-10`}
+          onLoad={() => setIsLoading(false)}
           style={{ filter: "brightness(1.05) saturate(1.1) contrast(1.02)" }}
           onError={(e) => {
             /* Fallback: show initials if photo not found */

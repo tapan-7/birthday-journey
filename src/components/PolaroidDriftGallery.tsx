@@ -3,7 +3,29 @@ import Image from "next/image";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSound } from "./SoundController";
-import { Star, X } from "lucide-react";
+import { Star, X, Loader2 } from "lucide-react";
+
+const PolaroidImage = ({ src, alt, sizes, className }: any) => {
+  const [isLoading, setIsLoading] = useState(true);
+  
+  return (
+    <>
+      {isLoading && (
+        <div className="absolute inset-0 bg-stone-800/80 animate-pulse flex items-center justify-center z-0">
+          <Loader2 className="w-5 h-5 text-stone-500 animate-spin" />
+        </div>
+      )}
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        sizes={sizes}
+        className={`${className} ${isLoading ? "opacity-0" : "opacity-100"} transition-opacity duration-500 z-10`}
+        onLoad={() => setIsLoading(false)}
+      />
+    </>
+  );
+};
 
 export interface PhotoItem {
   id: string;
@@ -615,10 +637,9 @@ export const PolaroidDriftGallery = ({
                   className="w-48 shrink-0 bg-white p-3 pb-10 rounded-sm shadow-xl cursor-pointer hover:-translate-y-3 hover:scale-105 hover:shadow-2xl hover:!rotate-0 transition-all duration-300 group"
                 >
                   <div className="relative aspect-square overflow-hidden mb-3 bg-stone-900">
-                    <Image
+                    <PolaroidImage
                       src={item.image}
                       alt={item.title}
-                      fill
                       sizes="200px"
                       className="object-contain filter brightness-95 group-hover:brightness-105 transition-all"
                     />
@@ -661,10 +682,9 @@ export const PolaroidDriftGallery = ({
                   className="w-48 shrink-0 bg-white p-3 pb-10 rounded-sm shadow-xl cursor-pointer hover:-translate-y-3 hover:scale-105 hover:shadow-2xl hover:!rotate-0 transition-all duration-300 group"
                 >
                   <div className="relative aspect-square overflow-hidden mb-3 bg-stone-900">
-                    <Image
+                    <PolaroidImage
                       src={item.image}
                       alt={item.title}
-                      fill
                       sizes="200px"
                       className="object-contain filter brightness-95 group-hover:brightness-105 transition-all"
                     />
@@ -713,14 +733,12 @@ export const PolaroidDriftGallery = ({
               </button>
 
               <div className="relative w-full aspect-[4/3] overflow-hidden mb-6 shadow-inner bg-stone-900">
-                <Image
-                  src={activePhoto.image}
-                  alt={activePhoto.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 800px"
-                  className="object-contain"
-                  priority
-                />
+                  <PolaroidImage
+                    src={activePhoto.image}
+                    alt={activePhoto.title}
+                    sizes="(max-width: 768px) 100vw, 800px"
+                    className="object-contain rounded-t-sm"
+                  />
               </div>
 
               <div className="text-center px-4">

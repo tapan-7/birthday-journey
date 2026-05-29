@@ -3,9 +3,41 @@ import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { birthdayData } from "@/config/birthdayData";
 import { ALL_PHOTOS, PhotoItem } from "./PolaroidDriftGallery";
-import { X, ArrowRight } from "lucide-react";
+import { X, ArrowRight, Loader2 } from "lucide-react";
 import { useSound } from "./SoundController";
 import confetti from "canvas-confetti";
+import Image from "next/image";
+
+const BubbleImage = ({ src }: { src: string }) => {
+  const [isLoading, setIsLoading] = useState(true);
+  
+  return (
+    <>
+      {isLoading && (
+        <div className="absolute inset-0 bg-stone-900/80 animate-pulse flex items-center justify-center z-10">
+          <Loader2 className="w-8 h-8 text-stone-500 animate-spin" />
+        </div>
+      )}
+      
+      {/* Blurred Background filling the empty space */}
+      <Image
+        src={src}
+        alt="Memory background"
+        fill
+        className={`object-cover opacity-40 blur-xl scale-110 ${isLoading ? 'opacity-0' : 'opacity-40'} transition-opacity duration-500`}
+        onLoad={() => setIsLoading(false)}
+      />
+      
+      {/* Actual Image containing the whole photo */}
+      <Image
+        src={src}
+        alt="Memory"
+        fill
+        className={`object-contain ${isLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-500`}
+      />
+    </>
+  );
+};
 
 interface FloatingBubblesProps {
   onCollectStar: (id: string) => void;
@@ -169,16 +201,7 @@ export const FloatingBubbles = ({
               className="relative max-w-sm w-full h-[550px] rounded-[32px] overflow-hidden shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Blurred Background filling the empty space */}
-              <div 
-                className="absolute inset-0 bg-cover bg-center opacity-40 blur-xl scale-110"
-                style={{ backgroundImage: `url('${activeMemory.image}')` }}
-              />
-              {/* Actual Image containing the whole photo */}
-              <div 
-                className="absolute inset-0 bg-contain bg-no-repeat bg-center"
-                style={{ backgroundImage: `url('${activeMemory.image}')` }}
-              />
+              <BubbleImage src={activeMemory.image} />
               
               {/* Top Gradient for text readability */}
               <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/50 to-transparent" />
