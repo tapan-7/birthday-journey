@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
+import Image from "next/image";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSound } from "./SoundController";
@@ -614,11 +615,12 @@ export const PolaroidDriftGallery = ({
                   className="w-48 shrink-0 bg-white p-3 pb-10 rounded-sm shadow-xl cursor-pointer hover:-translate-y-3 hover:scale-105 hover:shadow-2xl hover:!rotate-0 transition-all duration-300 group"
                 >
                   <div className="relative aspect-square overflow-hidden mb-3 bg-stone-100">
-                    <img
+                    <Image
                       src={item.image}
                       alt={item.title}
-                      loading="lazy"
-                      className="w-full h-full object-cover filter brightness-95 group-hover:brightness-105 transition-all"
+                      fill
+                      sizes="200px"
+                      className="object-cover filter brightness-95 group-hover:brightness-105 transition-all"
                     />
                     {isCollected && (
                       <div className="absolute top-1.5 right-1.5 bg-amber-400 rounded-full p-1 shadow">
@@ -659,11 +661,12 @@ export const PolaroidDriftGallery = ({
                   className="w-48 shrink-0 bg-white p-3 pb-10 rounded-sm shadow-xl cursor-pointer hover:-translate-y-3 hover:scale-105 hover:shadow-2xl hover:!rotate-0 transition-all duration-300 group"
                 >
                   <div className="relative aspect-square overflow-hidden mb-3 bg-stone-100">
-                    <img
+                    <Image
                       src={item.image}
                       alt={item.title}
-                      loading="lazy"
-                      className="w-full h-full object-cover filter brightness-95 group-hover:brightness-105 transition-all"
+                      fill
+                      sizes="200px"
+                      className="object-cover filter brightness-95 group-hover:brightness-105 transition-all"
                     />
                     {isCollected && (
                       <div className="absolute top-1.5 right-1.5 bg-amber-400 rounded-full p-1 shadow">
@@ -709,11 +712,14 @@ export const PolaroidDriftGallery = ({
                 <X className="w-5 h-5" />
               </button>
 
-              <div className="relative w-full aspect-[4/3] overflow-hidden mb-6 shadow-inner">
-                <img
+              <div className="relative w-full aspect-[4/3] overflow-hidden mb-6 shadow-inner bg-stone-100">
+                <Image
                   src={activePhoto.image}
                   alt={activePhoto.title}
-                  className="w-full h-full object-cover"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 800px"
+                  className="object-cover"
+                  priority
                 />
               </div>
 

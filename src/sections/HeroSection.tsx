@@ -1,4 +1,5 @@
 import { motion, Variants } from "framer-motion";
+import Image from "next/image";
 import { birthdayData } from "@/config/birthdayData";
 import { ArrowDown, Sparkles } from "lucide-react";
 import { useSound } from "@/components/SoundController";
@@ -67,12 +68,15 @@ export const HeroSection = ({ onStartClick }: HeroSectionProps) => {
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 1.5, type: "spring", damping: 15, delay: 0.3 }}
-          className="w-40 h-40 md:w-48 md:h-48 rounded-full border-2 border-white/20 shadow-[0_0_50px_rgba(255,255,255,0.15)] overflow-hidden bg-white/5 p-1 mb-2"
+          className="w-40 h-40 md:w-48 md:h-48 rounded-full border-2 border-white/20 shadow-[0_0_50px_rgba(255,255,255,0.15)] overflow-hidden bg-white/5 p-1 mb-2 relative"
         >
-          <img 
+          <Image 
             src="/Alien/DDO07689.JPG"
             alt="Best Friend"
-            className="w-full h-full object-cover rounded-full filter brightness-105"
+            fill
+            sizes="200px"
+            className="object-cover rounded-full filter brightness-105"
+            priority
           />
         </motion.div>
         
