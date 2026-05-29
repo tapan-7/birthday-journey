@@ -47,14 +47,7 @@ export const SecretChest = ({
     <div className="relative w-full flex flex-col items-center">
       {/* Section label */}
       <div className="text-center mb-12">
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          className="font-handwritten text-teal-300 text-2xl mb-2"
-          style={{ textShadow: "0 0 20px rgba(20,184,166,0.5)" }}
-        >
-          chapter 6
-        </motion.p>
+
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

@@ -27,14 +27,7 @@ export const DeeperThanWords = ({
     <div className="relative w-full flex flex-col">
       {/* Section label */}
       <div className="text-center mb-12">
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          className="font-handwritten text-pink-300 text-2xl mb-2"
-          style={{ textShadow: "0 0 20px rgba(236,72,153,0.5)" }}
-        >
-          chapter 3
-        </motion.p>
+
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

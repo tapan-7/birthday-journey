@@ -38,14 +38,7 @@ export const MemoryConstellation = ({
     <div className="relative w-full h-full flex flex-col">
       {/* Section label */}
       <div className="text-center mb-12">
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          className="font-handwritten text-blue-300 text-2xl mb-2"
-          style={{ textShadow: "0 0 20px rgba(96,165,250,0.5)" }}
-        >
-          chapter 1
-        </motion.p>
+
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
