@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { birthdayData, FunMemory } from "@/config/birthdayData";
-import { Sparkles, X } from "lucide-react";
+import { Sparkles, X, ArrowRight } from "lucide-react";
 import { useSound } from "./SoundController";
 import confetti from "canvas-confetti";
 
@@ -16,18 +16,51 @@ export const FloatingBubbles = ({
 }: FloatingBubblesProps) => {
   const { playPaperFlip } = useSound();
   const [activeMemory, setActiveMemory] = useState<FunMemory | null>(null);
+  const [poppedBubbles, setPoppedBubbles] = useState<string[]>([]);
 
-  const bubbleItems = [
-    { id: "fun-1", x: "12%",  size: 80, delay: 0,   hue: "from-purple-500/20 to-blue-500/20",    glow: "rgba(168,85,247,.4)" },
-    { id: "fun-2", x: "35%",  size: 95, delay: 1.8, hue: "from-pink-500/20 to-purple-500/20",    glow: "rgba(236,72,153,.4)" },
-    { id: "fun-3", x: "60%",  size: 72, delay: 0.9, hue: "from-blue-500/20 to-cyan-500/20",      glow: "rgba(59,130,246,.4)" },
-    { id: "fun-4", x: "80%",  size: 88, delay: 2.5, hue: "from-rose-500/20 to-pink-500/20",      glow: "rgba(244,63,94,.4)"  },
-  ];
+  // Generate 20 bubbles from the available funMemories
+  const bubbleItems = useMemo(() => {
+    const items = [];
+    const memories = birthdayData.funMemories;
+    if (!memories || memories.length === 0) return [];
+    
+    for (let i = 0; i < 20; i++) {
+      const memory = memories[i % memories.length];
+      const size = 60 + Math.random() * 50; // Random size between 60 and 110
+      
+      const hues = [
+        "from-purple-500/20 to-blue-500/20",
+        "from-pink-500/20 to-purple-500/20",
+        "from-blue-500/20 to-cyan-500/20",
+        "from-rose-500/20 to-pink-500/20"
+      ];
+      const glows = [
+        "rgba(168,85,247,.4)",
+        "rgba(236,72,153,.4)",
+        "rgba(59,130,246,.4)",
+        "rgba(244,63,94,.4)"
+      ];
+      
+      const colorIndex = i % hues.length;
 
-  const handleBubbleClick = (funId: string) => {
+      items.push({
+        id: `bubble-${i}-${memory.id}`,
+        memoryId: memory.id,
+        x: `${5 + Math.random() * 85}%`, // Random X position (5% to 90%)
+        size,
+        delay: Math.random() * 5, // Random initial delay
+        hue: hues[colorIndex],
+        glow: glows[colorIndex]
+      });
+    }
+    return items;
+  }, []);
+
+  const handleBubbleClick = (bubbleId: string, memoryId: string) => {
     playPaperFlip();
-    onCollectStar(funId);
-    const fun = birthdayData.funMemories.find((f) => f.id === funId);
+    onCollectStar(memoryId);
+    
+    const fun = birthdayData.funMemories.find((f) => f.id === memoryId);
     if (fun) {
       setActiveMemory(fun);
       confetti({
@@ -37,6 +70,14 @@ export const FloatingBubbles = ({
         colors: ["#c084fc", "#e879f9", "#38bdf8"],
       });
     }
+
+    // Add to popped state
+    setPoppedBubbles((prev) => [...prev, bubbleId]);
+
+    // Respawn after 5 seconds
+    setTimeout(() => {
+      setPoppedBubbles((prev) => prev.filter((id) => id !== bubbleId));
+    }, 5000);
   };
 
   return (
@@ -58,7 +99,7 @@ export const FloatingBubbles = ({
           className="font-cinematic text-5xl md:text-6xl font-bold text-white tracking-tight"
           style={{ textShadow: "0 0 40px rgba(168,85,247,0.3)" }}
         >
-          Floating Memories
+          Floating Stories
         </motion.h2>
         <motion.p
           initial={{ opacity: 0 }}
@@ -66,45 +107,44 @@ export const FloatingBubbles = ({
           transition={{ delay: 0.2 }}
           className="font-sans text-stone-400 text-sm mt-3"
         >
-          Pop a bubble to reveal a roast hiding inside ✨
+          Pop a bubble to reveal a memory ✨
         </motion.p>
       </div>
 
-      {/* Bubble play field — no container, floats freely */}
-      <div className="relative w-full" style={{ height: "420px" }}>
+      {/* Bubble play field */}
+      <div className="relative w-full overflow-hidden" style={{ height: "450px" }}>
         {bubbleItems.map((item) => {
-          const isPopped = collectedStars.includes(item.id);
-          const memory   = birthdayData.funMemories.find((f) => f.id === item.id);
+          const isPopped = poppedBubbles.includes(item.id);
+          const memory = birthdayData.funMemories.find((f) => f.id === item.memoryId);
 
           return (
             <AnimatePresence key={item.id}>
               {!isPopped && (
                 <motion.button
-                  initial={{ y: 500, opacity: 0 }}
-                  animate={{ y: [500, 0, 500], x: [0, 12, -8, 0], opacity: [0, 1, 1, 0.9] }}
+                  initial={{ y: 550, opacity: 0 }}
+                  animate={{ y: [550, -100], x: [0, Math.sin(item.delay) * 20, 0], opacity: [0, 1, 1, 0] }}
                   transition={{
                     repeat: Infinity,
-                    duration: 10 + item.delay * 0.8,
+                    duration: 12 + item.delay * 2, // Float slowly upwards
                     delay: item.delay,
-                    ease: "easeInOut",
+                    ease: "linear",
                   }}
-                  whileHover={{ scale: 1.18 }}
+                  whileHover={{ scale: 1.15 }}
                   whileTap={{ scale: 0.85 }}
-                  onClick={() => handleBubbleClick(item.id)}
+                  onClick={() => handleBubbleClick(item.id, item.memoryId)}
                   style={{
                     position: "absolute",
                     left: item.x,
                     width: item.size,
                     height: item.size,
-                    boxShadow: `0 0 30px ${item.glow}, inset 0 0 20px rgba(255,255,255,0.15)`,
+                    boxShadow: `0 0 20px ${item.glow}, inset 0 0 15px rgba(255,255,255,0.15)`,
                   }}
-                  className={`rounded-full bg-gradient-to-tr ${item.hue} border border-white/25 flex flex-col items-center justify-center cursor-pointer select-none`}
+                  className={`rounded-full bg-gradient-to-tr ${item.hue} border border-white/20 flex flex-col items-center justify-center cursor-pointer select-none backdrop-blur-sm z-10`}
                 >
-                  {/* Bubble highlight */}
-                  <div className="absolute top-[15%] left-[20%] w-[30%] h-[25%] rounded-full bg-white/25 blur-[2px]" />
-                  <Sparkles className="h-4 w-4 text-white/60 mb-0.5" />
-                  <span className="font-handwritten text-xs font-bold text-white/80 text-center px-2 leading-tight">
-                    {memory?.jokeTitle.split(" ").slice(0, 2).join(" ")}
+                  <div className="absolute top-[15%] left-[20%] w-[30%] h-[25%] rounded-full bg-white/30 blur-[2px]" />
+                  <Sparkles className="h-3 w-3 text-white/50 mb-0.5" />
+                  <span className="font-sans text-[9px] font-bold text-white/70 text-center px-1 leading-tight truncate w-full max-w-[80%]">
+                    {memory?.jokeTitle.split(" ").slice(0, 1).join(" ")}
                   </span>
                 </motion.button>
               )}
@@ -113,65 +153,77 @@ export const FloatingBubbles = ({
         })}
 
         {/* Ambient floating mini particles */}
-        {[...Array(8)].map((_, i) => (
+        {[...Array(12)].map((_, i) => (
           <motion.div
             key={`p-${i}`}
             className="absolute rounded-full pointer-events-none"
             style={{
-              left: `${(i * 12.7) % 90}%`,
-              width: 4, height: 4,
+              left: `${(i * 9.7) % 100}%`,
+              width: 3, height: 3,
               background: ["#c084fc","#f472b6","#60a5fa","#34d399"][i % 4],
-              opacity: 0.3,
+              opacity: 0.2,
             }}
-            animate={{ y: [0, -300], opacity: [0.3, 0] }}
-            transition={{ repeat: Infinity, duration: 5 + i, delay: i * 1.2, ease: "easeOut" }}
+            animate={{ y: [0, -400], opacity: [0.2, 0] }}
+            transition={{ repeat: Infinity, duration: 6 + i, delay: i * 0.8, ease: "linear" }}
           />
         ))}
       </div>
 
-      {/* Popped memory overlay */}
+      {/* Popped memory overlay (Dubai Safari Style) */}
       <AnimatePresence>
         {activeMemory && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[500] flex items-center justify-center p-6 bg-black/60 backdrop-blur-md"
+            className="fixed inset-0 z-[500] flex items-center justify-center p-4 sm:p-6 bg-black/70 backdrop-blur-xl"
             onClick={() => setActiveMemory(null)}
           >
             <motion.div
-              initial={{ scale: 0.8, y: 40 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.8, y: 40 }}
-              transition={{ type: "spring", damping: 22 }}
-              className="relative max-w-md w-full"
+              initial={{ scale: 0.9, y: 20, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0.9, y: 20, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="relative max-w-sm w-full h-[550px] rounded-[32px] overflow-hidden shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Polaroid photo */}
-              <div className="bg-white p-3 pb-10 rounded shadow-2xl rotate-[-1.5deg] mb-2">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={activeMemory.image}
-                  alt={activeMemory.jokeTitle}
-                  className="w-full aspect-video object-cover rounded-sm filter grayscale-[30%]"
-                />
+              {/* Background Image filling the card */}
+              <div 
+                className="absolute inset-0 bg-cover bg-center"
+                style={{ backgroundImage: `url(${activeMemory.image})` }}
+              />
+              
+              {/* Top Gradient for text readability */}
+              <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/50 to-transparent" />
+              
+              {/* Elegant floating title at top */}
+              <div className="absolute top-8 inset-x-0 text-center">
+                <h3 className="font-cinematic text-5xl text-white/90 font-light tracking-wide mix-blend-overlay">
+                  Memory
+                </h3>
               </div>
 
-              <div className="text-center space-y-3 px-4">
-                <span className="inline-block px-3 py-1 rounded-full bg-purple-500/20 border border-purple-500/30 text-purple-200 font-sans text-xs uppercase tracking-wider">
-                  {activeMemory.jokeTitle}
-                </span>
-                <p className="font-handwritten text-white text-xl leading-snug">
-                  "{activeMemory.caption}"
-                </p>
+              {/* Bottom Glassmorphism Panel */}
+              <div className="absolute inset-x-0 bottom-0 p-6 pt-12 pb-8 bg-gradient-to-t from-black/80 via-black/40 to-transparent backdrop-blur-[2px]">
+                <div className="flex items-end justify-between gap-4">
+                  <div className="flex-1">
+                    <h4 className="font-sans text-2xl font-bold text-white mb-2 leading-tight drop-shadow-md">
+                      {activeMemory.jokeTitle}
+                    </h4>
+                    <p className="font-sans text-sm text-stone-200 leading-relaxed drop-shadow-md opacity-90 line-clamp-3">
+                      {activeMemory.caption}
+                    </p>
+                  </div>
+                  
+                  {/* Arrow Button */}
+                  <button 
+                    onClick={() => setActiveMemory(null)}
+                    className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white shrink-0 hover:bg-white/30 hover:scale-105 transition-all shadow-[0_0_15px_rgba(255,255,255,0.2)]"
+                  >
+                    <ArrowRight className="w-5 h-5" />
+                  </button>
+                </div>
               </div>
-
-              <button
-                onClick={() => setActiveMemory(null)}
-                className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-colors cursor-pointer"
-              >
-                <X className="h-4 w-4" />
-              </button>
             </motion.div>
           </motion.div>
         )}

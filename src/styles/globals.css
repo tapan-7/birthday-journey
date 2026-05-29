@@ -243,6 +243,26 @@ body {
 }
 .jellyfish-drift { animation: jellyfish-float 9s ease-in-out infinite; }
 
+/* ── Infinite Marquee ────────────────────────────────────── */
+@keyframes marquee-left {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes marquee-right {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0%); }
+}
+.animate-marquee-left {
+  animation: marquee-left 40s linear infinite;
+}
+.animate-marquee-right {
+  animation: marquee-right 45s linear infinite;
+}
+.marquee-container:hover .animate-marquee-left,
+.marquee-container:hover .animate-marquee-right {
+  animation-play-state: paused;
+}
+
 /* ── Star Jar ────────────────────────────────────────────── */
 .glow-jar-fill {
   background: linear-gradient(0deg, rgba(253,224,71,.9) 0%, rgba(251,191,36,.3) 100%);
@@ -261,17 +281,17 @@ body {
   flex-direction: column;
   gap: 10px;
   padding: 16px 10px;
-  background: linear-gradient(180deg,
+  /* background: linear-gradient(180deg,
     rgba(15,10,30,.8) 0%,
-    rgba(10,6,22,.75) 100%);
+    rgba(10,6,22,.75) 100%); */
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,.1);
+  /* border: 1px solid rgba(255,255,255,.1);
   border-radius: 99px;
   box-shadow:
     0 0 0 1px rgba(255,255,255,.04) inset,
     0 20px 50px rgba(0,0,0,.6),
-    0 0 30px rgba(139,92,246,.08);
+    0 0 30px rgba(139,92,246,.08); */
 }
 
 .floating-sidebar-icon {
