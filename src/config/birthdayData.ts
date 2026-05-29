@@ -223,7 +223,7 @@ export const birthdayData: BirthdayConfig = {
     },
     {
       id: "em-2",
-      image: "/Alien/IMG_20250126_134902112.jpg",
+      image: "/Alien/IMG_8150.JPG",
       quote: "Ordinary days became less ordinary because of you.",
       story:
         "We actually do need fancy parties or grand adventures. Just sitting in your room, listening to music, and talking about life makes me feel incredibly lucky to have you.",

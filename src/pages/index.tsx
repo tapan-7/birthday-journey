@@ -23,6 +23,47 @@ import { HeroPicture } from "@/components/HeroPicture";
 
 export default function Home() {
   const [hasDivedIn, setHasDivedIn] = useState(false);
+  const [timeLeft, setTimeLeft] = useState<{
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+    isFinished: boolean;
+  } | null>(null);
+
+  useEffect(() => {
+    // Target date is May 30th 2026 00:00:00 local time
+    const targetDate = new Date("2026-05-30T00:00:00").getTime();
+
+    const updateTime = () => {
+      const now = new Date().getTime();
+      const difference = targetDate - now;
+
+      if (difference <= 0) {
+        setTimeLeft({
+          days: 0,
+          hours: 0,
+          minutes: 0,
+          seconds: 0,
+          isFinished: true,
+        });
+      } else {
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor(
+          (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+        );
+        const minutes = Math.floor(
+          (difference % (1000 * 60 * 60)) / (1000 * 60),
+        );
+        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+        setTimeLeft({ days, hours, minutes, seconds, isFinished: false });
+      }
+    };
+
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
   const [activeSection, setActiveSection] = useState("home-ocean");
 
   // Hold-to-dive mechanics
@@ -136,7 +177,7 @@ export default function Home() {
           ...prev,
           {
             id: Date.now(),
-            text: "My Wish for Aanya",
+            text: "My Wish for Alien",
             x: Math.random() * 80 + 10,
             y: Math.random() * 50 + 20,
           },
@@ -349,105 +390,176 @@ export default function Home() {
                   }}
                   className="flex flex-col items-center gap-4"
                 >
-                  {/* Outer decorative ring */}
-                  <div className="relative">
-                    <motion.div
-                      animate={{ rotate: 360 }}
-                      transition={{
-                        repeat: Infinity,
-                        duration: 20,
-                        ease: "linear",
-                      }}
-                      className="absolute -inset-3 rounded-full border border-dashed border-purple-500/20"
-                    />
-                    <motion.div
-                      animate={{ rotate: -360 }}
-                      transition={{
-                        repeat: Infinity,
-                        duration: 30,
-                        ease: "linear",
-                      }}
-                      className="absolute -inset-6 rounded-full border border-dashed border-pink-500/10"
-                    />
-
-                    <button
-                      onMouseDown={() => setIsHolding(true)}
-                      onMouseUp={() => setIsHolding(false)}
-                      onMouseLeave={() => setIsHolding(false)}
-                      onTouchStart={() => setIsHolding(true)}
-                      onTouchEnd={() => setIsHolding(false)}
-                      className="hold-to-dive relative w-36 h-36 rounded-full flex items-center justify-center cursor-pointer overflow-visible group select-none touch-none"
-                    >
-                      {/* Water Ripple Effects */}
-                      <AnimatePresence>
-                        {isHolding && (
-                          <>
-                            <motion.div
-                              initial={{ scale: 0.8, opacity: 0.8 }}
-                              animate={{ scale: 2.5, opacity: 0 }}
-                              transition={{
-                                repeat: Infinity,
-                                duration: 1.5,
-                                ease: "easeOut",
-                              }}
-                              className="absolute inset-0 rounded-full border border-purple-500/60 bg-purple-500/20"
-                            />
-                            <motion.div
-                              initial={{ scale: 0.8, opacity: 0.8 }}
-                              animate={{ scale: 2.5, opacity: 0 }}
-                              transition={{
-                                repeat: Infinity,
-                                duration: 1.5,
-                                delay: 0.5,
-                                ease: "easeOut",
-                              }}
-                              className="absolute inset-0 rounded-full border border-pink-500/60 bg-pink-500/20"
-                            />
-                            <motion.div
-                              initial={{ scale: 0.8, opacity: 0.8 }}
-                              animate={{ scale: 2.5, opacity: 0 }}
-                              transition={{
-                                repeat: Infinity,
-                                duration: 1.5,
-                                delay: 1.0,
-                                ease: "easeOut",
-                              }}
-                              className="absolute inset-0 rounded-full border border-rose-500/60 bg-rose-500/20"
-                            />
-                          </>
-                        )}
-                      </AnimatePresence>
-
-                      {/* Main Button Background */}
-                      <div className="absolute inset-0 rounded-full border border-purple-500/40 bg-purple-950/40 backdrop-blur-sm overflow-hidden">
-                        {/* Radial progress fill */}
-                        <div
-                          style={{
-                            clipPath: `inset(${100 - holdProgress}% 0px 0px 0px)`,
-                          }}
-                          className="absolute inset-0 bg-gradient-to-t from-purple-600/60 via-pink-500/50 to-rose-500/40 transition-all duration-75"
-                        />
-                      </div>
-
-                      {/* Inner glowing center */}
-                      <div className="z-10 text-center space-y-2 relative">
-                        <span className="font-sans text-[11px] uppercase font-bold tracking-widest text-stone-200 block drop-shadow-md">
-                          {isHolding ? "Diving..." : "Hold to Dive"}
+                  <div className="flex flex-col items-center gap-4">
+                    {!timeLeft ? (
+                      <div className="h-36 flex items-center justify-center">
+                        <span className="animate-pulse text-stone-500 font-sans text-sm tracking-widest">
+                          Loading...
                         </span>
-                        {isHolding && (
-                          <motion.div
-                            initial={{ scaleX: 0 }}
-                            animate={{ scaleX: holdProgress / 100 }}
-                            className="w-16 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 mx-auto rounded-full origin-left"
-                          />
-                        )}
                       </div>
-                    </button>
-                  </div>
+                    ) : timeLeft.isFinished ? (
+                      <>
+                        {/* Outer decorative ring */}
+                        <div className="relative">
+                          <motion.div
+                            animate={{ rotate: 360 }}
+                            transition={{
+                              repeat: Infinity,
+                              duration: 20,
+                              ease: "linear",
+                            }}
+                            className="absolute -inset-3 rounded-full border border-dashed border-purple-500/20"
+                          />
+                          <motion.div
+                            animate={{ rotate: -360 }}
+                            transition={{
+                              repeat: Infinity,
+                              duration: 30,
+                              ease: "linear",
+                            }}
+                            className="absolute -inset-6 rounded-full border border-dashed border-pink-500/10"
+                          />
 
-                  <span className="text-[10px] font-sans text-stone-600 uppercase tracking-widest">
-                    Hold & descend into the universe
-                  </span>
+                          <button
+                            onMouseDown={() => setIsHolding(true)}
+                            onMouseUp={() => setIsHolding(false)}
+                            onMouseLeave={() => setIsHolding(false)}
+                            onTouchStart={() => setIsHolding(true)}
+                            onTouchEnd={() => setIsHolding(false)}
+                            className="hold-to-dive relative w-36 h-36 rounded-full flex items-center justify-center cursor-pointer overflow-visible group select-none touch-none z-20"
+                          >
+                            {/* Water Ripple Effects */}
+                            <AnimatePresence>
+                              {isHolding && (
+                                <>
+                                  <motion.div
+                                    initial={{ scale: 0.8, opacity: 0.8 }}
+                                    animate={{ scale: 2.5, opacity: 0 }}
+                                    transition={{
+                                      repeat: Infinity,
+                                      duration: 1.5,
+                                      ease: "easeOut",
+                                    }}
+                                    className="absolute inset-0 rounded-full border border-purple-500/60 bg-purple-500/20"
+                                  />
+                                  <motion.div
+                                    initial={{ scale: 0.8, opacity: 0.8 }}
+                                    animate={{ scale: 2.5, opacity: 0 }}
+                                    transition={{
+                                      repeat: Infinity,
+                                      duration: 1.5,
+                                      delay: 0.5,
+                                      ease: "easeOut",
+                                    }}
+                                    className="absolute inset-0 rounded-full border border-pink-500/60 bg-pink-500/20"
+                                  />
+                                  <motion.div
+                                    initial={{ scale: 0.8, opacity: 0.8 }}
+                                    animate={{ scale: 2.5, opacity: 0 }}
+                                    transition={{
+                                      repeat: Infinity,
+                                      duration: 1.5,
+                                      delay: 1.0,
+                                      ease: "easeOut",
+                                    }}
+                                    className="absolute inset-0 rounded-full border border-rose-500/60 bg-rose-500/20"
+                                  />
+                                </>
+                              )}
+                            </AnimatePresence>
+
+                            {/* Main Button Background */}
+                            <div className="absolute inset-0 rounded-full border border-purple-500/40 bg-purple-950/40 backdrop-blur-sm overflow-hidden pointer-events-none">
+                              {/* Radial progress fill */}
+                              <div
+                                style={{
+                                  clipPath: `inset(${100 - holdProgress}% 0px 0px 0px)`,
+                                }}
+                                className="absolute inset-0 bg-gradient-to-t from-purple-600/60 via-pink-500/50 to-rose-500/40 transition-all duration-75 pointer-events-none"
+                              />
+                            </div>
+
+                            {/* Inner glowing center */}
+                            <div className="z-10 text-center space-y-2 relative pointer-events-none">
+                              <span className="font-sans text-[11px] uppercase font-bold tracking-widest text-stone-200 block drop-shadow-md">
+                                {isHolding ? "Diving..." : "Hold to Dive"}
+                              </span>
+                              {isHolding && (
+                                <motion.div
+                                  initial={{ scaleX: 0 }}
+                                  animate={{ scaleX: holdProgress / 100 }}
+                                  className="w-16 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 mx-auto rounded-full origin-left pointer-events-none"
+                                />
+                              )}
+                            </div>
+                          </button>
+                        </div>
+                        <span className="text-[10px] font-sans text-stone-600 uppercase tracking-widest">
+                          Hold & descend into the universe
+                        </span>
+                      </>
+                    ) : (
+                      <div className="flex flex-col items-center justify-center gap-8 relative z-10 w-full mt-4">
+                        <span
+                          className="font-handwritten text-2xl text-rose-400 block text-center"
+                          style={{ textShadow: "0 0 15px rgba(244,63,94,0.4)" }}
+                        >
+                          Patience, Alien...
+                        </span>
+                        <div className="flex gap-4 md:gap-6 text-center justify-center">
+                          {timeLeft.days > 0 && (
+                            <>
+                              <div className="flex flex-col">
+                                <span className="text-4xl font-cinematic font-light text-white drop-shadow-md">
+                                  {timeLeft.days.toString().padStart(2, "0")}
+                                </span>
+                                <span className="text-[9px] text-stone-400 uppercase tracking-widest mt-1">
+                                  Days
+                                </span>
+                              </div>
+                              <span className="text-3xl text-stone-600 font-light">
+                                :
+                              </span>
+                            </>
+                          )}
+                          <div className="flex flex-col">
+                            <span className="text-4xl font-cinematic font-light text-white drop-shadow-md">
+                              {timeLeft.hours.toString().padStart(2, "0")}
+                            </span>
+                            <span className="text-[9px] text-stone-400 uppercase tracking-widest mt-1">
+                              Hrs
+                            </span>
+                          </div>
+                          <span className="text-3xl text-stone-600 font-light">
+                            :
+                          </span>
+                          <div className="flex flex-col">
+                            <span className="text-4xl font-cinematic font-light text-white drop-shadow-md">
+                              {timeLeft.minutes.toString().padStart(2, "0")}
+                            </span>
+                            <span className="text-[9px] text-stone-400 uppercase tracking-widest mt-1">
+                              Min
+                            </span>
+                          </div>
+                          <span className="text-3xl text-stone-600 font-light">
+                            :
+                          </span>
+                          <div className="flex flex-col">
+                            <span className="text-4xl font-cinematic font-light text-rose-400 drop-shadow-[0_0_10px_rgba(244,63,94,0.5)]">
+                              {timeLeft.seconds.toString().padStart(2, "0")}
+                            </span>
+                            <span className="text-[9px] text-stone-400 uppercase tracking-widest mt-1">
+                              Sec
+                            </span>
+                          </div>
+                        </div>
+                        <span className="text-xs text-stone-400 max-w-[220px] mt-2 text-center leading-relaxed">
+                          The gates to your universe will open exactly at
+                          midnight.
+                        </span>
+                      </div>
+                    )}
+                  </div>
                 </motion.div>
               </div>
             </motion.div>
