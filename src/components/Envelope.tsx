@@ -125,7 +125,7 @@ export const Envelope = ({ title, paragraphs }: EnvelopeProps) => {
                 {/* Close Button */}
                 <button
                   onClick={handleCloseModal}
-                  className="absolute top-4 right-4 p-1.5 rounded-full hover:bg-stone-200 text-stone-600 transition-colors cursor-pointer"
+                  className="sticky top-0 float-right p-1.5 rounded-full bg-[#faf6ee] hover:bg-stone-200 text-stone-600 transition-colors cursor-pointer z-50 shadow-sm border border-stone-200 -mt-2 -mr-2"
                   title="Close letter"
                 >
                   <X className="h-5 w-5" />
@@ -145,6 +145,16 @@ export const Envelope = ({ title, paragraphs }: EnvelopeProps) => {
 
                   <div className="pt-8 border-t border-stone-200 text-right text-stone-600 text-2xl font-bold italic rotate-[-1deg]">
                     — Love, Your Best Friend
+                  </div>
+
+                  {/* Bottom Close Button */}
+                  <div className="flex justify-center pt-8 pb-4">
+                    <button
+                      onClick={handleCloseModal}
+                      className="px-8 py-2.5 bg-stone-800 hover:bg-stone-900 text-stone-100 rounded-full shadow-lg font-sans text-sm tracking-wide transition-all active:scale-95 flex items-center gap-2"
+                    >
+                      <X className="w-4 h-4" /> Close Letter
+                    </button>
                   </div>
                 </div>
               </motion.div>
