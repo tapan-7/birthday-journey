@@ -226,17 +226,57 @@ export const birthdayData: BirthdayConfig = {
       image: "/Alien/IMG_20250126_134902112.jpg",
       quote: "Ordinary days became less ordinary because of you.",
       story:
-        "We don't need fancy parties or grand adventures. Just sitting in your room, listening to music, and talking about life makes me feel incredibly lucky to have you.",
+        "We actually do need fancy parties or grand adventures. Just sitting in your room, listening to music, and talking about life makes me feel incredibly lucky to have you.",
     },
   ],
 
   // 4. Celebration
   celebrationLetter: {
-    heading: "Today is about celebrating you 🎂",
+    heading: "Happy Birthday old woman.",
     paragraphs: [
-      "Happy Birthday to my favorite human in the universe! You deserve every ounce of happiness, laughter, and cake today.",
-      "Thank you for being the voice of reason when I'm crazy, and the partner-in-crime when I need some adventure. You're not just my best friend; you are family.",
-      "As you blow out these candles, know that you are loved, appreciated, and that I'm always cheering for you from the sidelines, no matter where life takes us.",
+      "Happy Birthday old woman.",
+      "Still funny to me how we even became this close.",
+      "Commerce girl and science boy, and both barely talking in college. Specially me, because you know I don’t talk to girls unless I know them properly.",
+      "And our first conversation was literally because of Hindi class.",
+      "Sir gave questions to write answers, I wrote correctly somehow and got praised while you people got beaten in that funny way. Then you asked for my notebook.",
+      "That was the first conversation I think.",
+      "At that time we were not even close.",
+      "You were a day scholar, going home after college while we hostel boys were suffering in that jail called hostel. So there was not much interaction outside classes also. No contact, nothing.",
+      "Then that college WhatsApp group opened and madam was one of the ring leaders uniting everyone. You contacted me through Facebook and then slowly slowly everything started from there.",
+      "And honestly, you became one of the very few people with whom I can talk without thinking much. No pressure, no overthinking about “what will happen if I say this.”",
+      "I can literally share anything.",
+      "You talk rubbish sometimes, too much actually, but still I listen.",
+      "And somehow you always talk like you are my mother just because you are older than me by 2.5 months.",
+      "Now things changed obviously.",
+      "You are busy now, giving attention to your man not me anymore 😔",
+      "You talk less, don’t understand my reels properly nowadays, and I’m getting fewer reels from you too. Everything went little little south maybe.",
+      "But still, I know what kind of person you are.",
+      "I know how valuable you are for people around you.",
+      "So on your birthday I just want one thing —",
+      "please stay as simple as you are now, even in future also. Don’t lose that version of yourself.",
+      "And yeah… thanks for becoming this close person in my life from just one notebook conversation.",
+      "Happy Birthday once again.",
+
+      "At that time we were not even close.",
+      "You were a day scholar, going home after college while we hostel boys were suffering in that jail called hostel. So there was not much interaction outside classes also. No contact, nothing.",
+      "Then that college WhatsApp group opened and madam was one of the ring leaders uniting everyone. You contacted me through Facebook and then slowly slowly everything started from there.",
+      "And honestly, you became one of the very few people with whom I can talk without thinking much. No pressure, no overthinking about “what will happen if I say this.",
+      "I can literally share anything.",
+      "You talk rubbish sometimes, too much actually, but still I listen.",
+      "And somehow you always talk like you are my mother just because you are older than me by 2.5 months.",
+
+      "Now things changed obviously.",
+      "You are busy now, giving attention to your man not me anymore 😔",
+      "You talk less, don’t understand my reels properly nowadays, and I’m getting fewer reels from you too. Everything went little little south maybe.",
+
+      "But still, I know what kind of person you are.",
+      "I know how valuable you are for people around you.",
+      "So on your birthday I just want one thing —",
+      "please stay as simple as you are now, even in future also. Don’t lose that version of yourself.",
+
+      "And yeah… thanks for becoming this close person in my life from just one notebook conversation.",
+
+      "Happy Birthday once again.",
     ],
     cakeCandlesCount: 3,
   },
@@ -245,15 +285,15 @@ export const birthdayData: BirthdayConfig = {
   hiddenSecret: {
     letterTitle: "A Secret Note (Just For Your Eyes) 🤫",
     letterContent:
-      "If you found this, it means you're nosey... but that's why we're friends! Seriously though, thank you for being you. Here's a little secret: I always count myself lucky to have met someone who shares my exact level of brain rot. Keep shining, you beautiful nerd.",
+      "If you found this, it means you're nosey... but that's why we're friends! Seriously though, thank you for being you. Here's a little secret: I always count myself lucky to have met someone who shares my exact level of brain rot. Keep shining, you beautiful Alien.",
     bloopers: [
       {
         title: "Roast #1",
-        text: "You still text in lowercase to look 'aesthetic' but type in all caps when you get excited.",
+        text: "You are getting older and older day by day, just like my patience level for your nonsense. 😝",
       },
       {
         title: "Roast #2",
-        text: "Your Spotify Wrapped is 90% sad songs even when you're perfectly happy.",
+        text: "You still have the voice like why we called you alien? 😝",
       },
       {
         title: "Fact",

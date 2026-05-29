@@ -45,7 +45,6 @@ export const SoundProvider = ({ children }: { children: React.ReactNode }) => {
       // 1. Ambient Background Music (looped, low volume)
       ambientBgRef.current = new Howl({
         src: [birthdayData.bgMusicUrl],
-        html5: true, // Use HTML5 audio for long tracks
         loop: true,
         volume: 0.15,
         onplay: () => setIsPlaying(true),
@@ -55,7 +54,6 @@ export const SoundProvider = ({ children }: { children: React.ReactNode }) => {
       // 2. Vinyl Crackle (looped, extremely low volume for warmth)
       vinylCrackleRef.current = new Howl({
         src: [birthdayData.vinylCrackleUrl],
-        html5: true,
         loop: true,
         volume: 0.12,
       });
