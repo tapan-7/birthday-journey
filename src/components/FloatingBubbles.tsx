@@ -52,13 +52,12 @@ export const FloatingBubbles = ({
       items.push({
         id: `bubble-${i}-${memory.id}`,
         memoryId: memory.id,
-        x: Math.random(), // 0 to 1 for bounds calculation
-        y: 10 + Math.random() * 75, // 10% to 85% vertical start position
+        x: Math.random(),
         size,
-        delay: Math.random() * 20, // Spread out delay
-        duration: 12 + Math.random() * 15, // Random float duration
-        floatDist: -(60 + Math.random() * 100), // Random upward float distance
-        xOffset: Math.sin(Math.random() * Math.PI * 2) * (20 + Math.random() * 40), // Gentle horizontal sway
+        delay: Math.random() * 350, // Massive delay scatter over the new long timeline
+        duration: 200 + Math.random() * 150, // 200s to 350s total loop (visible for only ~10% of this time)
+        swayAmount: 15 + Math.random() * 50, // Random sway distance!
+        swayDuration: 3 + Math.random() * 4,
         hue: hues[colorIndex],
         glow: glows[colorIndex],
         bubbleWord
@@ -97,38 +96,9 @@ export const FloatingBubbles = ({
   };
 
   return (
-    <div className="relative w-full flex flex-col">
-      {/* Section label */}
-      <div className="text-center mb-16">
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          className="font-handwritten text-purple-300 text-2xl mb-2"
-          style={{ textShadow: "0 0 20px rgba(168,85,247,0.5)" }}
-        >
-          chapter 2
-        </motion.p>
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="font-cinematic text-5xl md:text-6xl font-bold text-white tracking-tight"
-          style={{ textShadow: "0 0 40px rgba(168,85,247,0.3)" }}
-        >
-          Floating Stories
-        </motion.h2>
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          className="font-sans text-stone-400 text-sm mt-3"
-        >
-          Pop a bubble to reveal a memory ✨
-        </motion.p>
-      </div>
-
-      {/* Bubble play field - Full viewport width */}
-      <div className="w-[100vw] relative left-1/2 -translate-x-1/2 overflow-hidden" style={{ height: "650px" }}>
+    <>
+      {/* Bubble play field - Fixed to viewport for global float */}
+      <div className="fixed inset-0 w-[100vw] h-[100dvh] pointer-events-none overflow-hidden z-20">
         {bubbleItems.map((item) => {
           const isPopped = poppedBubbles.includes(item.id);
           const memory = ALL_PHOTOS.find((f) => f.id === item.memoryId);
@@ -137,37 +107,44 @@ export const FloatingBubbles = ({
           return (
             <AnimatePresence key={item.id}>
               {!isPopped && (
-                <motion.button
-                  initial={{ top: `${item.y}%`, y: 0, opacity: 0 }}
-                  animate={{ 
-                    y: [0, item.floatDist], 
-                    x: [0, item.xOffset, 0], 
-                    opacity: [0, 1, 1, 0] 
-                  }}
-                  transition={{
-                    repeat: Infinity,
-                    duration: item.duration,
-                    delay: item.delay,
-                    ease: "easeInOut",
-                  }}
-                  whileHover={{ scale: 1.15 }}
-                  whileTap={{ scale: 0.85 }}
-                  onClick={() => handleBubbleClick(item.id, item.memoryId)}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0, filter: "blur(10px)" }}
+                  transition={{ duration: 0.4 }}
                   style={{
                     position: "absolute",
                     left: `calc(${item.x} * (100% - ${item.size}px))`,
+                    top: "100%",
                     width: item.size,
                     height: item.size,
-                    willChange: "transform, opacity",
-                    boxShadow: `inset 0 0 15px rgba(255,255,255,0.15)`,
+                    willChange: "transform",
+                    animation: `bubble-float-y ${item.duration}s linear infinite`,
+                    animationDelay: `-${item.delay}s`, // Negative delay pre-scatters bubbles
+                    zIndex: 10,
                   }}
-                  className={`rounded-full bg-gradient-to-tr ${item.hue} border border-white/20 flex flex-col items-center justify-center cursor-pointer select-none z-10 hover:brightness-110`}
                 >
-                  <div className="absolute top-[15%] left-[20%] w-[30%] h-[25%] rounded-full bg-white/30" />
-                  <span className="font-sans text-[11px] font-bold text-white/90 text-center px-1 leading-tight truncate w-full max-w-[80%] uppercase tracking-wider shadow-sm">
-                    {item.bubbleWord}
-                  </span>
-                </motion.button>
+                  <motion.button
+                    whileHover={{ scale: 1.15 }}
+                    whileTap={{ scale: 0.85 }}
+                    onClick={() => handleBubbleClick(item.id, item.memoryId)}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      willChange: "transform",
+                      boxShadow: `inset 0 0 15px rgba(255,255,255,0.15)`,
+                      "--sway-amount": `${item.swayAmount}px`,
+                      animation: `bubble-sway ${item.swayDuration}s ease-in-out infinite alternate`,
+                      animationDelay: `-${item.delay}s`,
+                    } as any}
+                    className={`pointer-events-auto rounded-full bg-gradient-to-tr ${item.hue} border border-white/20 flex flex-col items-center justify-center cursor-pointer select-none hover:brightness-110`}
+                  >
+                    <div className="absolute top-[15%] left-[20%] w-[30%] h-[25%] rounded-full bg-white/30" />
+                    <span className="font-sans text-[11px] font-bold text-white/90 text-center px-1 leading-tight truncate w-full max-w-[80%] uppercase tracking-wider shadow-sm">
+                      {item.bubbleWord}
+                    </span>
+                  </motion.button>
+                </motion.div>
               )}
             </AnimatePresence>
           );
@@ -257,6 +234,6 @@ export const FloatingBubbles = ({
       </AnimatePresence>,
       document.body
     )}
-    </div>
+    </>
   );
 };

@@ -187,11 +187,7 @@ export default function Home() {
       icon: <Compass className="h-[18px] w-[18px]" />,
       label: "Chaos Zone",
     },
-    {
-      id: "letters-from-me",
-      icon: <MailOpen className="h-[18px] w-[18px]" />,
-      label: "Letters From Me",
-    },
+
     {
       id: "secret-islands",
       icon: <Lock className="h-[18px] w-[18px]" />,
@@ -220,6 +216,12 @@ export default function Home() {
         {/* Particle Backdrop & Film Grain */}
         <BioluminescentCanvas />
         <FilmGrain />
+        
+        {/* Global Floating Bubbles Overlay */}
+        <FloatingBubbles
+          onCollectStar={handleCollectStar}
+          collectedStars={collectedStars}
+        />
 
         {/* Global floating Wish Stars */}
         <div className="fixed inset-0 pointer-events-none z-10 overflow-hidden">
@@ -610,27 +612,7 @@ export default function Home() {
                 </div>
               </section>
 
-              {/* ── CH2: Floating Memories (Bubbles) ── */}
-              <section
-                id="letters-from-me"
-                className="chapter-section"
-                style={{
-                  background:
-                    "linear-gradient(180deg,transparent,rgba(168,85,247,.05) 50%,transparent)",
-                }}
-              >
-                <div className="absolute inset-0 pointer-events-none">
-                  <div className="absolute top-1/2 left-1/3 w-[450px] h-[350px] bg-purple-700/5 rounded-full blur-[100px]" />
-                </div>
-                <div className="w-full max-w-5xl mx-auto z-10">
-                  <FloatingBubbles
-                    onCollectStar={handleCollectStar}
-                    collectedStars={collectedStars}
-                  />
-                </div>
-              </section>
-
-              {/* ── CH3: Deeper Than Words ── */}
+              {/* ── CH2: Deeper Than Words ── */}
               <section
                 id="secret-islands"
                 className="chapter-section"
