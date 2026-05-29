@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useSound } from "./SoundController";
 import { Star, X } from "lucide-react";
 
-interface PhotoItem {
+export interface PhotoItem {
   id: string;
   image: string;
   title: string;

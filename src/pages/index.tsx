@@ -423,8 +423,8 @@ export default function Home() {
                             duration: 1,
                           }}
                         >
-                        <div className="h-7 w-7 text-purple-300 mx-auto" />
-                      </motion.div>
+                          <div className="h-7 w-7 text-purple-300 mx-auto" />
+                        </motion.div>
                         <span className="font-sans text-[11px] uppercase font-bold tracking-widest text-stone-200 block">
                           {isHolding ? "Diving..." : "Hold to Dive"}
                         </span>
@@ -483,13 +483,17 @@ export default function Home() {
                     transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
                     className="shrink-0"
                   >
-                    <HeroPicture src="/images/aalu.jpg" name="Aalu" />
+                    <HeroPicture
+                      src="/Alien/IMG-20250317-WA0001.jpg"
+                      name="Aalu"
+                    />
                   </motion.div>
 
                   {/* Title block */}
                   <div className="flex-1 flex flex-col items-start text-left space-y-6">
                     <motion.span
-                      initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3 }}
                       className="badge-pulse px-3 py-1 rounded-full bg-purple-500/10 border border-purple-400/25 text-purple-300 text-[10px] font-semibold uppercase tracking-wider"
                     >
@@ -497,42 +501,65 @@ export default function Home() {
                     </motion.span>
 
                     <motion.div
-                      initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.4, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{
+                        delay: 0.4,
+                        duration: 1,
+                        ease: [0.16, 1, 0.3, 1],
+                      }}
                       className="space-y-3"
                     >
-                      <p className="font-handwritten text-rose-300 text-xl"
-                        style={{ textShadow: "0 0 20px rgba(251,113,133,.5)" }}>
+                      <p
+                        className="font-handwritten text-rose-300 text-xl"
+                        style={{ textShadow: "0 0 20px rgba(251,113,133,.5)" }}
+                      >
                         Tonight is about you.
                       </p>
-                      <h2 className="font-cinematic text-5xl md:text-6xl font-bold text-white leading-tight"
-                        style={{ textShadow: "0 0 50px rgba(168,85,247,.3)" }}>
-                        Happy Birthday,<br />
+                      <h2
+                        className="font-cinematic text-5xl md:text-6xl font-bold text-white leading-tight"
+                        style={{ textShadow: "0 0 50px rgba(168,85,247,.3)" }}
+                      >
+                        Happy Birthday,
+                        <br />
                         <span className="text-shimmer">Aalu ✨</span>
                       </h2>
                     </motion.div>
 
                     <motion.p
-                      initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.6 }}
                       className="font-emotional italic text-stone-300 text-xl leading-relaxed"
                     >
-                      "Because some bonds don&apos;t need a reason,<br />only a universe."
+                      "Because some bonds don&apos;t need a reason,
+                      <br />
+                      only a universe."
                     </motion.p>
 
                     <motion.p
-                      initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.8 }}
                       className="font-sans text-stone-500 text-xs leading-relaxed"
                     >
-                      Scroll down to dive deeper, or use the compass navigator on the left.
+                      Scroll down to dive deeper, or use the compass navigator
+                      on the left.
                     </motion.p>
 
                     <motion.div
-                      initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2 }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 1.2 }}
                       className="flex items-center gap-2 text-stone-600 text-[11px] font-sans uppercase tracking-widest"
                     >
                       <motion.div
                         animate={{ y: [0, 6, 0] }}
-                        transition={{ repeat: Infinity, duration: 1.6, ease: "easeInOut" }}
+                        transition={{
+                          repeat: Infinity,
+                          duration: 1.6,
+                          ease: "easeInOut",
+                        }}
                         className="w-0.5 h-6 bg-gradient-to-b from-purple-500/60 to-transparent rounded-full"
                       />
                       Scroll to begin
@@ -542,8 +569,14 @@ export default function Home() {
               </section>
 
               {/* ── CH1: Memory Constellation ── */}
-              <section id="moments-scrapbook" className="chapter-section"
-                style={{ background: "linear-gradient(180deg,transparent,rgba(30,60,200,.04) 50%,transparent)" }}>
+              <section
+                id="moments-scrapbook"
+                className="chapter-section"
+                style={{
+                  background:
+                    "linear-gradient(180deg,transparent,rgba(30,60,200,.04) 50%,transparent)",
+                }}
+              >
                 <div className="absolute inset-0 pointer-events-none">
                   <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[500px] h-[400px] bg-blue-700/5 rounded-full blur-[100px]" />
                 </div>
@@ -557,8 +590,14 @@ export default function Home() {
               </section>
 
               {/* ── DRIFT PORTAL: Polaroid Gallery ── */}
-              <section id="chaos-zone" className="chapter-section"
-                style={{ background: "linear-gradient(180deg,transparent,rgba(34,211,238,.03) 50%,transparent)" }}>
+              <section
+                id="chaos-zone"
+                className="chapter-section"
+                style={{
+                  background:
+                    "linear-gradient(180deg,transparent,rgba(34,211,238,.03) 50%,transparent)",
+                }}
+              >
                 <div className="absolute inset-0 pointer-events-none">
                   <div className="absolute bottom-1/3 right-1/4 w-[400px] h-[300px] bg-cyan-700/4 rounded-full blur-[90px]" />
                 </div>
@@ -572,8 +611,14 @@ export default function Home() {
               </section>
 
               {/* ── CH2: Floating Memories (Bubbles) ── */}
-              <section id="letters-from-me" className="chapter-section"
-                style={{ background: "linear-gradient(180deg,transparent,rgba(168,85,247,.05) 50%,transparent)" }}>
+              <section
+                id="letters-from-me"
+                className="chapter-section"
+                style={{
+                  background:
+                    "linear-gradient(180deg,transparent,rgba(168,85,247,.05) 50%,transparent)",
+                }}
+              >
                 <div className="absolute inset-0 pointer-events-none">
                   <div className="absolute top-1/2 left-1/3 w-[450px] h-[350px] bg-purple-700/5 rounded-full blur-[100px]" />
                 </div>
@@ -586,8 +631,14 @@ export default function Home() {
               </section>
 
               {/* ── CH3: Deeper Than Words ── */}
-              <section id="secret-islands" className="chapter-section"
-                style={{ background: "linear-gradient(180deg,transparent,rgba(236,72,153,.05) 50%,transparent)" }}>
+              <section
+                id="secret-islands"
+                className="chapter-section"
+                style={{
+                  background:
+                    "linear-gradient(180deg,transparent,rgba(236,72,153,.05) 50%,transparent)",
+                }}
+              >
                 <div className="absolute inset-0 pointer-events-none">
                   <div className="absolute top-1/3 right-1/3 w-[400px] h-[400px] bg-pink-700/5 rounded-full blur-[90px]" />
                 </div>
@@ -600,8 +651,14 @@ export default function Home() {
               </section>
 
               {/* ── CH4: Letters From Me ── */}
-              <section id="birthday-realm" className="chapter-section"
-                style={{ background: "linear-gradient(180deg,transparent,rgba(245,158,11,.04) 50%,transparent)" }}>
+              <section
+                id="birthday-realm"
+                className="chapter-section"
+                style={{
+                  background:
+                    "linear-gradient(180deg,transparent,rgba(245,158,11,.04) 50%,transparent)",
+                }}
+              >
                 <div className="absolute inset-0 pointer-events-none">
                   <div className="absolute bottom-1/3 left-1/4 w-[400px] h-[300px] bg-amber-700/4 rounded-full blur-[90px]" />
                 </div>
@@ -614,8 +671,14 @@ export default function Home() {
               </section>
 
               {/* ── CH5: Wishing Well ── */}
-              <section id="ch-wishing" className="chapter-section"
-                style={{ background: "linear-gradient(180deg,transparent,rgba(244,63,94,.05) 50%,transparent)" }}>
+              <section
+                id="ch-wishing"
+                className="chapter-section"
+                style={{
+                  background:
+                    "linear-gradient(180deg,transparent,rgba(244,63,94,.05) 50%,transparent)",
+                }}
+              >
                 <div className="absolute inset-0 pointer-events-none">
                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] h-[350px] bg-rose-700/5 rounded-full blur-[100px]" />
                 </div>
@@ -628,8 +691,14 @@ export default function Home() {
               </section>
 
               {/* ── CH6: Secret Chest ── */}
-              <section id="ch-chest" className="chapter-section"
-                style={{ background: "linear-gradient(180deg,transparent,rgba(20,184,166,.04) 50%,transparent)" }}>
+              <section
+                id="ch-chest"
+                className="chapter-section"
+                style={{
+                  background:
+                    "linear-gradient(180deg,transparent,rgba(20,184,166,.04) 50%,transparent)",
+                }}
+              >
                 <div className="absolute inset-0 pointer-events-none">
                   <div className="absolute bottom-1/3 right-1/4 w-[400px] h-[300px] bg-teal-700/4 rounded-full blur-[90px]" />
                 </div>
@@ -643,8 +712,14 @@ export default function Home() {
               </section>
 
               {/* ── CH7: Our Little World (Finale) ── */}
-              <section id="ch-finale" className="chapter-section"
-                style={{ background: "linear-gradient(180deg,transparent,rgba(139,92,246,.08))" }}>
+              <section
+                id="ch-finale"
+                className="chapter-section"
+                style={{
+                  background:
+                    "linear-gradient(180deg,transparent,rgba(139,92,246,.08))",
+                }}
+              >
                 <div className="absolute inset-0 pointer-events-none">
                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[500px] bg-purple-800/8 rounded-full blur-[130px]" />
                 </div>
@@ -658,23 +733,41 @@ export default function Home() {
 
               {/* ── FIXED FOOTER BAR ── */}
               <div className="fixed bottom-5 inset-x-5 z-40 flex items-center justify-between pointer-events-none">
-                <div className="pointer-events-auto"><MusicPlayer /></div>
+                <div className="pointer-events-auto">
+                  <MusicPlayer />
+                </div>
 
-                <div className="pointer-events-auto flex items-center gap-3 bg-black/70 border border-white/10 rounded-full py-2 px-4 shadow-2xl backdrop-blur-xl"
-                  style={{ boxShadow: starCount > 0 ? "0 0 20px rgba(251,191,36,.15)" : undefined }}>
+                <div
+                  className="pointer-events-auto flex items-center gap-3 bg-black/70 border border-white/10 rounded-full py-2 px-4 shadow-2xl backdrop-blur-xl"
+                  style={{
+                    boxShadow:
+                      starCount > 0
+                        ? "0 0 20px rgba(251,191,36,.15)"
+                        : undefined,
+                  }}
+                >
                   <div className="text-right">
                     <span className="font-handwritten text-amber-300 text-sm block leading-tight">
-                      {starCount >= totalStarsPossible ? "Universe Complete! 🌟" : "Star Jar"}
+                      {starCount >= totalStarsPossible
+                        ? "Universe Complete! 🌟"
+                        : "Star Jar"}
                     </span>
                     <span className="font-sans text-[9px] text-stone-400 uppercase tracking-widest block">
                       {starCount} / {totalStarsPossible} Collected
                     </span>
                   </div>
-                  <div className="relative w-8 h-10 rounded-b-md rounded-t border border-stone-500/50 bg-black/50 flex items-end overflow-hidden"
-                    style={{ boxShadow: "inset 0 0 8px rgba(0,0,0,.5)" }}>
-                    <div style={{ height: `${jarFillHeight}%` }} className="w-full glow-jar-fill" />
+                  <div
+                    className="relative w-8 h-10 rounded-b-md rounded-t border border-stone-500/50 bg-black/50 flex items-end overflow-hidden"
+                    style={{ boxShadow: "inset 0 0 8px rgba(0,0,0,.5)" }}
+                  >
+                    <div
+                      style={{ height: `${jarFillHeight}%` }}
+                      className="w-full glow-jar-fill"
+                    />
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                      <Star className={`h-3 w-3 ${starCount > 0 ? "text-yellow-300 fill-yellow-300 animate-pulse" : "text-stone-700"}`} />
+                      <Star
+                        className={`h-3 w-3 ${starCount > 0 ? "text-yellow-300 fill-yellow-300 animate-pulse" : "text-stone-700"}`}
+                      />
                     </div>
                   </div>
                 </div>

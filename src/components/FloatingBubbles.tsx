@@ -52,9 +52,13 @@ export const FloatingBubbles = ({
       items.push({
         id: `bubble-${i}-${memory.id}`,
         memoryId: memory.id,
-        x: `${2 + Math.random() * 85}vw`, // Use vw to spread across full screen
+        x: Math.random(), // 0 to 1 for bounds calculation
+        y: 10 + Math.random() * 75, // 10% to 85% vertical start position
         size,
-        delay: Math.random() * 45, // Spread out massively to relax them
+        delay: Math.random() * 20, // Spread out delay
+        duration: 12 + Math.random() * 15, // Random float duration
+        floatDist: -(60 + Math.random() * 100), // Random upward float distance
+        xOffset: Math.sin(Math.random() * Math.PI * 2) * (20 + Math.random() * 40), // Gentle horizontal sway
         hue: hues[colorIndex],
         glow: glows[colorIndex],
         bubbleWord
@@ -134,18 +138,28 @@ export const FloatingBubbles = ({
             <AnimatePresence key={item.id}>
               {!isPopped && (
                 <motion.button
+                  initial={{ top: `${item.y}%`, y: 0, opacity: 0 }}
+                  animate={{ 
+                    y: [0, item.floatDist], 
+                    x: [0, item.xOffset, 0], 
+                    opacity: [0, 1, 1, 0] 
+                  }}
+                  transition={{
+                    repeat: Infinity,
+                    duration: item.duration,
+                    delay: item.delay,
+                    ease: "easeInOut",
+                  }}
                   whileHover={{ scale: 1.15 }}
                   whileTap={{ scale: 0.85 }}
                   onClick={() => handleBubbleClick(item.id, item.memoryId)}
                   style={{
                     position: "absolute",
-                    left: item.x,
+                    left: `calc(${item.x} * (100% - ${item.size}px))`,
                     width: item.size,
                     height: item.size,
                     willChange: "transform, opacity",
                     boxShadow: `inset 0 0 15px rgba(255,255,255,0.15)`,
-                    animation: `bubble-float ${floatDuration}s linear infinite`,
-                    animationDelay: `-${item.delay}s`,
                   }}
                   className={`rounded-full bg-gradient-to-tr ${item.hue} border border-white/20 flex flex-col items-center justify-center cursor-pointer select-none z-10 hover:brightness-110`}
                 >
