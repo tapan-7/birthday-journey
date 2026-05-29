@@ -62,9 +62,9 @@ export const FloatingBubbles = ({
     const items = [];
     const funnyNames = ["Gadhedo", "Aalo", "Alien", "Pagala", "Harami", "Haramkhor", "Kukur"];
     
-    // Shuffle and pick max 12
+    // Shuffle and pick max 45
     const shuffled = [...ALL_PHOTOS].sort(() => 0.5 - Math.random());
-    const selected = shuffled.slice(0, 12);
+    const selected = shuffled.slice(0, 45);
 
     for (let i = 0; i < selected.length; i++) {
       const bubbleWord = funnyNames[i % funnyNames.length];
@@ -85,8 +85,8 @@ export const FloatingBubbles = ({
         memoryId: memory.id,
         x: Math.random(),
         size,
-        delay: Math.random() * 350,
-        duration: 150 + Math.random() * 100, // Faster loop so they appear more often
+        delay: Math.random() * 100,
+        duration: 35 + Math.random() * 50, // Faster loop so they appear more often
         swayAmount: 15 + Math.random() * 50,
         swayDuration: 3 + Math.random() * 4,
         hue: hues[colorIndex],
