@@ -201,9 +201,14 @@ export const FloatingBubbles = ({
               className="relative max-w-sm w-full h-[550px] rounded-[32px] overflow-hidden shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Background Image filling the card */}
+              {/* Blurred Background filling the empty space */}
               <div 
-                className="absolute inset-0 bg-cover bg-center"
+                className="absolute inset-0 bg-cover bg-center opacity-40 blur-xl scale-110"
+                style={{ backgroundImage: `url('${activeMemory.image}')` }}
+              />
+              {/* Actual Image containing the whole photo */}
+              <div 
+                className="absolute inset-0 bg-contain bg-no-repeat bg-center"
                 style={{ backgroundImage: `url('${activeMemory.image}')` }}
               />
               
