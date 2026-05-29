@@ -52,9 +52,9 @@ export const FloatingBubbles = ({
       items.push({
         id: `bubble-${i}-${memory.id}`,
         memoryId: memory.id,
-        x: `${5 + Math.random() * 85}%`, // Random X position (5% to 90%)
+        x: `${2 + Math.random() * 85}vw`, // Use vw to spread across full screen
         size,
-        delay: Math.random() * 25, // Random initial delay up to 25s for 77 bubbles
+        delay: Math.random() * 45, // Spread out massively to relax them
         hue: hues[colorIndex],
         glow: glows[colorIndex],
         bubbleWord
@@ -123,8 +123,8 @@ export const FloatingBubbles = ({
         </motion.p>
       </div>
 
-      {/* Bubble play field */}
-      <div className="relative w-full" style={{ height: "450px" }}>
+      {/* Bubble play field - Full viewport width */}
+      <div className="relative w-screen -ml-[50vw] left-[50%]" style={{ height: "650px" }}>
         {bubbleItems.map((item) => {
           const isPopped = poppedBubbles.includes(item.id);
           const memory = ALL_PHOTOS.find((f) => f.id === item.memoryId);
@@ -133,11 +133,11 @@ export const FloatingBubbles = ({
             <AnimatePresence key={item.id}>
               {!isPopped && (
                 <motion.button
-                  initial={{ y: 550, opacity: 0 }}
-                  animate={{ y: [550, -100], x: [0, Math.sin(item.delay) * 20, 0], opacity: [0, 1, 1, 0] }}
+                  initial={{ y: 750, opacity: 0 }}
+                  animate={{ y: [750, -200], x: [0, Math.sin(item.delay) * 40, 0], opacity: [0, 1, 1, 0] }}
                   transition={{
                     repeat: Infinity,
-                    duration: 12 + item.delay * 2, // Float slowly upwards
+                    duration: 18 + (item.delay % 10), // Much slower, relaxed float
                     delay: item.delay,
                     ease: "linear",
                   }}
