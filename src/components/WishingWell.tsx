@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, HelpCircle } from "lucide-react";
+import { HelpCircle } from "lucide-react";
 import { useSound } from "./SoundController";
 import confetti from "canvas-confetti";
 
@@ -122,7 +122,7 @@ export const WishingWell = ({
                 animate={{ scale: 1 }}
                 className="text-center"
               >
-                <Sparkles className="h-10 w-10 text-amber-300 mx-auto animate-pulse" />
+
                 <span className="font-handwritten text-stone-300 text-sm block mt-2">Wish Cast ✦</span>
               </motion.div>
             ) : (
@@ -182,7 +182,7 @@ export const WishingWell = ({
                 className="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-rose-500 hover:from-amber-400 hover:to-rose-400 disabled:opacity-40 text-white font-sans font-semibold text-sm tracking-wide transition-all cursor-pointer flex items-center justify-center gap-2"
                 style={{ boxShadow: wishText.trim() ? "0 0 20px rgba(251,191,36,0.3)" : undefined }}
               >
-                <Sparkles className="h-4 w-4" />
+
                 Throw Wish into the Deep
               </button>
             </form>

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { birthdayData } from "@/config/birthdayData";
 import { useSound } from "@/components/SoundController";
-import { Lock, Sparkles } from "lucide-react";
+import { Lock } from "lucide-react";
 
 interface MidnightUnlockProps {
   onUnlock: () => void;
@@ -157,7 +157,7 @@ export const MidnightUnlock = ({ onUnlock }: MidnightUnlockProps) => {
             disabled={isUnlocked}
             className="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-rose-500 to-amber-500 hover:from-rose-600 hover:to-amber-600 font-sans font-semibold text-sm tracking-wider uppercase text-white shadow-[0_0_24px_rgba(244,63,94,0.3)] transition-all duration-300 cursor-pointer flex items-center justify-center gap-2 group"
           >
-            <Sparkles className="h-4 w-4 text-amber-200 group-hover:animate-spin" />
+
             <span>{birthdayData.bypassUnlockText}</span>
           </motion.button>
         </div>

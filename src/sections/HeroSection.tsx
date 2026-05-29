@@ -1,7 +1,7 @@
 import { motion, Variants } from "framer-motion";
 import Image from "next/image";
 import { birthdayData } from "@/config/birthdayData";
-import { ArrowDown, Sparkles } from "lucide-react";
+import { ArrowDown } from "lucide-react";
 import { useSound } from "@/components/SoundController";
 
 interface HeroSectionProps {
@@ -87,7 +87,7 @@ export const HeroSection = ({ onStartClick }: HeroSectionProps) => {
           transition={{ type: "spring", delay: 0.2, damping: 15 }}
           className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-semibold uppercase tracking-widest text-rose-300"
         >
-          <Sparkles className="h-3 w-3 text-amber-200 animate-pulse" />
+
           <span>A Best Friend's Gift</span>
         </motion.div>
 

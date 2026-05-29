@@ -2,7 +2,7 @@ import { birthdayData } from "@/config/birthdayData";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { useSound } from "@/components/SoundController";
-import { Sparkles, MessageCircle } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 
 export const ChaosSection = () => {
   const { playPaperFlip } = useSound();
@@ -34,7 +34,7 @@ export const ChaosSection = () => {
             transition={{ type: "spring", damping: 15 }}
             className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-xs font-semibold uppercase tracking-widest text-purple-300"
           >
-            <Sparkles className="h-3 w-3 animate-spin duration-3000" />
+
             <span>Chaos & Inside Jokes</span>
           </motion.div>
           

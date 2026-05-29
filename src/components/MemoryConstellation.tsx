@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { birthdayData, MemoryMoment } from "@/config/birthdayData";
-import { Star, Sparkles, X } from "lucide-react";
+import { Star, X } from "lucide-react";
 import { useSound } from "./SoundController";
 
 interface MemoryConstellationProps {

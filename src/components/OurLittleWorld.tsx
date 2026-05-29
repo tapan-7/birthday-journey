@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { BirthdayCake } from "./BirthdayCake";
-import { Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { birthdayData } from "@/config/birthdayData";
 
@@ -48,7 +47,7 @@ export const OurLittleWorld = ({
           transition={{ delay: 0.2 }}
           className="font-sans text-stone-400 text-sm mt-3 flex items-center justify-center gap-2"
         >
-          <Sparkles className="h-3.5 w-3.5 text-purple-400" />
+
           Blow out all the candles to unlock the final surprise
         </motion.p>
       </div>
@@ -99,7 +98,7 @@ export const OurLittleWorld = ({
               ))}
               <div className="relative w-20 h-20 rounded-full bg-purple-500/20 border border-purple-500/40 flex items-center justify-center"
                 style={{ boxShadow: "0 0 40px rgba(168,85,247,0.4)" }}>
-                <Sparkles className="h-10 w-10 text-purple-300 animate-pulse" />
+
               </div>
             </div>
 

@@ -1,6 +1,6 @@
 import { birthdayData } from "@/config/birthdayData";
 import { motion } from "framer-motion";
-import { ArrowUp, Heart, Sparkles } from "lucide-react";
+import { ArrowUp, Heart } from "lucide-react";
 import { useSound } from "@/components/SoundController";
 
 interface EndingSectionProps {
@@ -104,7 +104,7 @@ export const EndingSection = ({ onReplayClick }: EndingSectionProps) => {
 
         {/* Sparkle divider */}
         <div className="flex justify-center py-4">
-          <Sparkles className="h-5 w-5 text-amber-300 animate-spin duration-3000" />
+
         </div>
 
         {/* Replay journey button */}

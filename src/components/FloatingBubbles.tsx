@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { birthdayData } from "@/config/birthdayData";
 import { ALL_PHOTOS, PhotoItem } from "./PolaroidDriftGallery";
-import { Sparkles, X, ArrowRight } from "lucide-react";
+import { X, ArrowRight } from "lucide-react";
 import { useSound } from "./SoundController";
 import confetti from "canvas-confetti";
 
@@ -124,23 +124,16 @@ export const FloatingBubbles = ({
       </div>
 
       {/* Bubble play field - Full viewport width */}
-      <div className="relative w-screen -ml-[50vw] left-[50%]" style={{ height: "650px" }}>
+      <div className="w-[100vw] relative left-1/2 -translate-x-1/2 overflow-hidden" style={{ height: "650px" }}>
         {bubbleItems.map((item) => {
           const isPopped = poppedBubbles.includes(item.id);
           const memory = ALL_PHOTOS.find((f) => f.id === item.memoryId);
+          const floatDuration = 18 + (item.delay % 10);
 
           return (
             <AnimatePresence key={item.id}>
               {!isPopped && (
                 <motion.button
-                  initial={{ y: 750, opacity: 0 }}
-                  animate={{ y: [750, -200], x: [0, Math.sin(item.delay) * 40, 0], opacity: [0, 1, 1, 0] }}
-                  transition={{
-                    repeat: Infinity,
-                    duration: 18 + (item.delay % 10), // Much slower, relaxed float
-                    delay: item.delay,
-                    ease: "linear",
-                  }}
                   whileHover={{ scale: 1.15 }}
                   whileTap={{ scale: 0.85 }}
                   onClick={() => handleBubbleClick(item.id, item.memoryId)}
@@ -151,11 +144,12 @@ export const FloatingBubbles = ({
                     height: item.size,
                     willChange: "transform, opacity",
                     boxShadow: `inset 0 0 15px rgba(255,255,255,0.15)`,
+                    animation: `bubble-float ${floatDuration}s linear infinite`,
+                    animationDelay: `-${item.delay}s`,
                   }}
                   className={`rounded-full bg-gradient-to-tr ${item.hue} border border-white/20 flex flex-col items-center justify-center cursor-pointer select-none z-10 hover:brightness-110`}
                 >
                   <div className="absolute top-[15%] left-[20%] w-[30%] h-[25%] rounded-full bg-white/30" />
-                  <Sparkles className="h-3 w-3 text-white/50 mb-0.5" />
                   <span className="font-sans text-[11px] font-bold text-white/90 text-center px-1 leading-tight truncate w-full max-w-[80%] uppercase tracking-wider shadow-sm">
                     {item.bubbleWord}
                   </span>

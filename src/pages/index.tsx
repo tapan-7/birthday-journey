@@ -21,7 +21,6 @@ import { OurLittleWorld } from "@/components/OurLittleWorld";
 // Icons
 import {
   Home as HomeIcon,
-  Sparkles,
   MailOpen,
   Lock,
   Coins,
@@ -180,7 +179,7 @@ export default function Home() {
     },
     {
       id: "moments-scrapbook",
-      icon: <Sparkles className="h-[18px] w-[18px]" />,
+      icon: <Star className="h-[18px] w-[18px]" />,
       label: "Memory Constellations",
     },
     {
@@ -424,8 +423,8 @@ export default function Home() {
                             duration: 1,
                           }}
                         >
-                          <Sparkles className="h-7 w-7 text-purple-300 mx-auto" />
-                        </motion.div>
+                        <div className="h-7 w-7 text-purple-300 mx-auto" />
+                      </motion.div>
                         <span className="font-sans text-[11px] uppercase font-bold tracking-widest text-stone-200 block">
                           {isHolding ? "Diving..." : "Hold to Dive"}
                         </span>

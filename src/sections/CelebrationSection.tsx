@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { BirthdayCake } from "@/components/BirthdayCake";
 import { Envelope } from "@/components/Envelope";
 import { birthdayData } from "@/config/birthdayData";
-import { Gift, Sparkles, Heart } from "lucide-react";
+import { Gift, Heart } from "lucide-react";
 import { useSound } from "@/components/SoundController";
 
 export const CelebrationSection = () => {
@@ -40,7 +40,7 @@ export const CelebrationSection = () => {
             viewport={{ once: true }}
             className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-xs font-semibold uppercase tracking-widest text-rose-300"
           >
-            <Sparkles className="h-3 w-3 animate-spin duration-3000" />
+
             <span>It's Celebration Time</span>
           </motion.div>
           
@@ -101,7 +101,7 @@ export const CelebrationSection = () => {
                       className="p-3 rounded-full bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/25 text-amber-300 hover:text-amber-200 transition-all flex items-center gap-2 text-xs font-semibold tracking-wider uppercase cursor-pointer"
                       title="Open hidden surprise"
                     >
-                      <Sparkles className="h-4 w-4 text-amber-200 animate-spin duration-3000" />
+
                       <span>Found a secret star? Tap me</span>
                     </button>
                   </motion.div>
@@ -141,7 +141,7 @@ export const CelebrationSection = () => {
 
               <div className="space-y-6 pt-2">
                 <div className="flex items-center gap-2 text-amber-600">
-                  <Sparkles className="h-5 w-5" />
+
                   <h4 className="font-cinematic text-2xl font-bold">
                     {birthdayData.hiddenSecret.letterTitle}
                   </h4>
