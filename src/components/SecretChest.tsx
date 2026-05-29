@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Lock, Unlock, Gift, ShieldAlert, Heart, Star } from "lucide-react";
+import { Lock, Unlock, Gift, Star } from "lucide-react";
 import { birthdayData } from "@/config/birthdayData";
 import { useSound } from "./SoundController";
 import confetti from "canvas-confetti";
@@ -21,137 +21,183 @@ export const SecretChest = ({
   const [rattleTrigger, setRattleTrigger] = useState(false);
 
   const isCollected = collectedStars.includes("secret-chest");
-  const isUnlocked = starCount >= 5;
+  const isUnlocked  = starCount >= 5;
 
   const handleChestClick = () => {
     if (!isUnlocked) {
-      // rattle the lock
       setRattleTrigger(true);
       playPaperFlip();
       setTimeout(() => setRattleTrigger(false), 500);
       return;
     }
-
     if (!isOpen) {
       setIsOpen(true);
       playPaperFlip();
       onCollectStar("secret-chest");
-
-      // Throw a burst of golden star confetti
       confetti({
-        particleCount: 40,
-        spread: 70,
-        origin: { y: 0.6 },
+        particleCount: 60,
+        spread: 80,
+        origin: { y: 0.55 },
         colors: ["#fbbf24", "#a7f3d0", "#c084fc"],
       });
     }
   };
 
   return (
-    <div className="w-full relative h-[450px] bg-black/45 border border-white/5 rounded-2xl p-6 overflow-hidden flex flex-col justify-between">
-      
-      {/* Title Header */}
-      <div className="flex items-center justify-between border-b border-white/10 pb-4 z-10">
-        <div>
-          <span className="font-handwritten text-teal-300 text-lg block">chapter 6</span>
-          <h3 className="font-cinematic text-xl font-bold tracking-tight text-white flex items-center gap-2">
-            <Lock className="h-4 w-4 text-teal-300" />
-            Secret Islands
-          </h3>
-        </div>
-        <span className="text-xs font-sans text-stone-400">
-          Locked Treasure Chest
-        </span>
+    <div className="relative w-full flex flex-col items-center">
+      {/* Section label */}
+      <div className="text-center mb-12">
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          className="font-handwritten text-teal-300 text-2xl mb-2"
+          style={{ textShadow: "0 0 20px rgba(20,184,166,0.5)" }}
+        >
+          chapter 6
+        </motion.p>
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="font-cinematic text-5xl md:text-6xl font-bold text-white tracking-tight"
+          style={{ textShadow: "0 0 40px rgba(20,184,166,0.25)" }}
+        >
+          Secret Islands
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="font-sans text-stone-400 text-sm mt-3 flex items-center justify-center gap-2"
+        >
+          <Star className="h-3.5 w-3.5 text-teal-400" />
+          Collect 5 stars across all chapters to break the lock
+        </motion.p>
       </div>
 
-      {/* Main animation area */}
-      <div className="relative flex-grow flex flex-col items-center justify-center my-4 z-10">
-        <AnimatePresence mode="wait">
-          {!isOpen ? (
-            <motion.div
-              key="locked"
-              animate={rattleTrigger ? { x: [-10, 10, -10, 10, 0], rotate: [-3, 3, -3, 3, 0] } : {}}
-              transition={{ duration: 0.4 }}
-              onClick={handleChestClick}
-              className="flex flex-col items-center cursor-pointer group"
-            >
-              {/* Chest Graphic */}
-              <div className="relative w-40 h-32 rounded-xl bg-gradient-to-b from-[#78350f] to-[#451a03] border-4 border-amber-900 shadow-2xl flex items-center justify-center">
-                {/* Gold bands */}
-                <div className="absolute left-6 inset-y-0 w-3 bg-amber-500/80" />
-                <div className="absolute right-6 inset-y-0 w-3 bg-amber-500/80" />
-                <div className="absolute inset-x-0 top-1/2 h-1.5 bg-amber-950" />
+      {/* Star progress — minimal pill indicators */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ delay: 0.3 }}
+        className="flex gap-2 mb-10"
+      >
+        {[...Array(5)].map((_, i) => (
+          <div
+            key={i}
+            className={`h-1.5 w-8 rounded-full transition-all duration-500 ${
+              i < starCount ? "bg-teal-400 shadow-[0_0_8px_rgba(20,184,166,0.6)]" : "bg-white/10"
+            }`}
+          />
+        ))}
+        <span className="font-sans text-[10px] text-stone-500 ml-2 self-center uppercase tracking-widest">
+          {starCount}/5
+        </span>
+      </motion.div>
 
-                {/* Padlock status icon */}
+      {/* Chest — large, centered, no box */}
+      <AnimatePresence mode="wait">
+        {!isOpen ? (
+          <motion.div
+            key="locked"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            animate={rattleTrigger ? { x: [-12, 12, -8, 8, 0], rotate: [-4, 4, -3, 3, 0] } : {}}
+            transition={{ duration: 0.4 }}
+            onClick={handleChestClick}
+            className="flex flex-col items-center cursor-pointer group"
+          >
+            {/* Chest graphic — bigger, bolder */}
+            <motion.div
+              whileHover={{ y: isUnlocked ? -6 : 0 }}
+              className="relative"
+              style={{ filter: isUnlocked ? "drop-shadow(0 0 30px rgba(251,191,36,0.3))" : undefined }}
+            >
+              {/* Chest body */}
+              <div className="relative w-52 h-40 rounded-xl bg-gradient-to-b from-[#92400e] to-[#451a03] border-4 border-amber-800 flex items-center justify-center overflow-visible"
+                style={{ boxShadow: "0 20px 60px rgba(0,0,0,0.6), inset 0 2px 4px rgba(255,255,255,0.1)" }}
+              >
+                {/* Gold bands */}
+                <div className="absolute left-8 inset-y-0 w-4 bg-amber-500/70 rounded-sm" />
+                <div className="absolute right-8 inset-y-0 w-4 bg-amber-500/70 rounded-sm" />
+                <div className="absolute inset-x-0 top-1/2 h-2 bg-amber-900/80" />
+
+                {/* Lock */}
                 <motion.div
-                  animate={isUnlocked ? { scale: [1, 1.15, 1] } : {}}
+                  animate={isUnlocked ? { scale: [1, 1.2, 1] } : {}}
                   transition={{ repeat: Infinity, duration: 2 }}
-                  className={`w-12 h-12 rounded-full border flex items-center justify-center shadow-lg ${
+                  className={`w-14 h-14 rounded-full border-2 flex items-center justify-center shadow-xl z-10 ${
                     isUnlocked
-                      ? "bg-amber-400/10 border-amber-400/40 text-amber-300 shadow-amber-400/10"
-                      : "bg-stone-900 border-white/10 text-stone-500"
+                      ? "bg-amber-400/20 border-amber-400/60 text-amber-300"
+                      : "bg-stone-900/80 border-stone-700 text-stone-500"
                   }`}
+                  style={{ boxShadow: isUnlocked ? "0 0 20px rgba(251,191,36,0.4)" : undefined }}
                 >
-                  {isUnlocked ? <Unlock className="h-5 w-5" /> : <Lock className="h-5 w-5" />}
+                  {isUnlocked ? <Unlock className="h-6 w-6" /> : <Lock className="h-6 w-6" />}
                 </motion.div>
               </div>
-
-              {/* Requirement Text */}
-              <div className="text-center mt-6 max-w-xs space-y-1">
-                <span className="font-handwritten text-base text-stone-300 block">
-                  {isUnlocked
-                    ? "The ancient lock clicks! Tap the chest to open."
-                    : `Collect 5 stars to break the lock.`}
-                </span>
-                <span className="text-[10px] font-sans text-stone-500 uppercase tracking-widest block">
-                  ({starCount} / 5 Stars Collected)
-                </span>
-              </div>
             </motion.div>
-          ) : (
-            /* Open chest content */
-            <motion.div
-              key="opened"
-              initial={{ opacity: 0, scale: 0.9, y: 10 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              className="w-full max-h-[260px] overflow-y-auto bg-stone-900/60 border border-teal-500/20 rounded-xl p-4 space-y-4"
-            >
-              <div className="flex items-center gap-1.5 text-teal-400 border-b border-white/10 pb-2">
-                <Gift className="h-4.5 w-4.5" />
-                <h4 className="font-cinematic text-sm font-bold uppercase tracking-wider">
-                  Unveiled Secrets
-                </h4>
-              </div>
 
-              <div className="space-y-3 font-sans text-xs text-stone-300 leading-relaxed font-light">
-                <p className="font-handwritten text-teal-200 text-lg leading-snug">
-                  "{birthdayData.hiddenSecret.letterContent}"
-                </p>
-
-                <div className="pt-2 border-t border-white/5 space-y-2">
-                  <span className="font-sans text-[10px] text-stone-500 uppercase font-semibold tracking-wider">
-                    friendship statistics & roasts:
-                  </span>
-                  {birthdayData.hiddenSecret.bloopers.map((item, idx) => (
-                    <div key={idx} className="bg-white/5 border border-white/5 rounded p-2">
-                      <strong className="text-amber-300 font-bold block text-[11px]">
-                        {item.title}
-                      </strong>
-                      <span className="text-stone-400 text-[10px]">{item.text}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+            {/* Status text */}
+            <motion.div className="text-center mt-8 space-y-1">
+              <p className="font-handwritten text-xl text-stone-300">
+                {isUnlocked
+                  ? "The lock clicks open... tap the chest."
+                  : `Collect ${5 - starCount} more star${5 - starCount !== 1 ? "s" : ""} to unlock.`}
+              </p>
+              {isUnlocked && (
+                <motion.p
+                  animate={{ opacity: [0.5, 1, 0.5] }}
+                  transition={{ repeat: Infinity, duration: 1.5 }}
+                  className="font-sans text-xs text-teal-400 uppercase tracking-widest"
+                >
+                  Click to open ✦
+                </motion.p>
+              )}
             </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+          </motion.div>
+        ) : (
+          /* Opened content — expands freely */
+          <motion.div
+            key="opened"
+            initial={{ opacity: 0, scale: 0.85, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ type: "spring", damping: 20 }}
+            className="w-full max-w-xl text-center space-y-8"
+          >
+            <div className="flex items-center justify-center gap-2 text-teal-400">
+              <Gift className="h-6 w-6" />
+              <h3 className="font-cinematic text-2xl font-bold">Unveiled Secrets</h3>
+            </div>
 
-      {/* Guide Footer */}
-      <div className="text-center text-[11px] font-sans text-stone-400 z-10 pt-4 border-t border-white/5 flex items-center justify-center gap-1.5">
-        <Star className="h-3 w-3 text-teal-300 fill-teal-300" />
-        <span>Hidden portal keys are unlocked by actively exploring all realms.</span>
-      </div>
+            <p className="font-handwritten text-teal-200 text-2xl leading-relaxed max-w-lg mx-auto">
+              "{birthdayData.hiddenSecret.letterContent}"
+            </p>
+
+            <div className="space-y-4">
+              <p className="font-sans text-[11px] text-stone-500 uppercase tracking-widest">
+                friendship statistics & roasts:
+              </p>
+              <div className="flex flex-col gap-3">
+                {birthdayData.hiddenSecret.bloopers.map((item, idx) => (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: idx * 0.15 }}
+                    className="text-left"
+                  >
+                    <span className="font-sans text-xs text-teal-400 uppercase tracking-wider block mb-0.5">
+                      {item.title}
+                    </span>
+                    <p className="font-handwritten text-lg text-stone-300">{item.text}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

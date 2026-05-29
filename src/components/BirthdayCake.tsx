@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSound } from "./SoundController";
 import confetti from "canvas-confetti";
@@ -16,6 +16,15 @@ export const BirthdayCake = ({
     Array(candlesCount).fill(true)
   );
   const { playCameraShutter, playPaperFlip } = useSound();
+  const confettiIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (confettiIntervalRef.current !== null) {
+        clearInterval(confettiIntervalRef.current);
+      }
+    };
+  }, []);
 
   const handleBlowCandle = (idx: number) => {
     if (!litCandles[idx]) return; // Already blown out
@@ -41,29 +50,31 @@ export const BirthdayCake = ({
       const duration = 3 * 1000;
       const end = Date.now() + duration;
 
-      const frame = () => {
+      confettiIntervalRef.current = setInterval(() => {
+        if (Date.now() > end) {
+          if (confettiIntervalRef.current !== null) {
+            clearInterval(confettiIntervalRef.current);
+            confettiIntervalRef.current = null;
+          }
+          onAllBlown();
+          return;
+        }
+
         confetti({
-          particleCount: 5,
+          particleCount: 15,
           angle: 60,
           spread: 55,
-          origin: { x: 0 },
+          origin: { x: 0, y: 0.8 },
           colors: ["#f43f5e", "#fb7185", "#ec4899", "#d946ef", "#8b5cf6"],
         });
         confetti({
-          particleCount: 5,
+          particleCount: 15,
           angle: 120,
           spread: 55,
-          origin: { x: 1 },
+          origin: { x: 1, y: 0.8 },
           colors: ["#f43f5e", "#fb7185", "#ec4899", "#d946ef", "#8b5cf6"],
         });
-
-        if (Date.now() < end) {
-          requestAnimationFrame(frame);
-        } else {
-          onAllBlown();
-        }
-      };
-      frame();
+      }, 250);
     }
   };
 

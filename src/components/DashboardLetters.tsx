@@ -1,6 +1,7 @@
 import { Envelope } from "./Envelope";
 import { birthdayData } from "@/config/birthdayData";
-import { Mail, Sparkles } from "lucide-react";
+import { Mail } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface DashboardLettersProps {
   onCollectStar: (id: string) => void;
@@ -14,40 +15,68 @@ export const DashboardLetters = ({
   const isCollected = collectedStars.includes("letter-envelope");
 
   const handleOpenLetter = () => {
-    if (!isCollected) {
-      onCollectStar("letter-envelope");
-    }
+    if (!isCollected) onCollectStar("letter-envelope");
   };
 
   return (
-    <div className="w-full relative h-[450px] bg-black/45 border border-white/5 rounded-2xl p-6 overflow-hidden flex flex-col justify-between">
-      
-      {/* Title */}
-      <div className="flex items-center justify-between border-b border-white/10 pb-4 z-10">
-        <div>
-          <span className="font-handwritten text-amber-300 text-lg block">chapter 4</span>
-          <h3 className="font-cinematic text-xl font-bold tracking-tight text-white flex items-center gap-2">
-            <Mail className="h-4 w-4 text-amber-300" />
-            Letters From Me
-          </h3>
-        </div>
-        <span className="text-xs font-sans text-stone-400">
-          Tap the envelope seal
-        </span>
+    <div className="relative w-full flex flex-col items-center">
+      {/* Section label */}
+      <div className="text-center mb-12">
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          className="font-handwritten text-amber-300 text-2xl mb-2"
+          style={{ textShadow: "0 0 20px rgba(251,191,36,0.5)" }}
+        >
+          chapter 4
+        </motion.p>
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="font-cinematic text-5xl md:text-6xl font-bold text-white tracking-tight"
+          style={{ textShadow: "0 0 40px rgba(251,191,36,0.2)" }}
+        >
+          Letters From Me
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="font-sans text-stone-400 text-sm mt-3 flex items-center justify-center gap-2"
+        >
+          <Mail className="h-3.5 w-3.5 text-amber-400" />
+          Tap the envelope seal to open your letter
+        </motion.p>
       </div>
 
-      {/* 3D Envelope container */}
-      <div className="relative flex-grow flex items-center justify-center z-10" onClick={handleOpenLetter}>
+      {/* Envelope — centered, no box, just floating */}
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3, type: "spring", damping: 20 }}
+        onClick={handleOpenLetter}
+        className="w-full flex justify-center"
+      >
         <Envelope
           title="A Note For You"
           paragraphs={birthdayData.celebrationLetter.paragraphs}
         />
-      </div>
+      </motion.div>
 
-      {/* Guide Footer */}
-      <div className="text-center text-[11px] font-sans text-stone-400 z-10 pt-4 border-t border-white/5 flex items-center justify-center gap-1.5">
-        <Sparkles className="h-3 w-3 text-amber-300" />
-        <span>Open the envelope to read a handwritten letter from my heart.</span>
+      {/* Decorative floating petals / letter lines */}
+      <div className="mt-12 max-w-xl mx-auto text-center space-y-1 pointer-events-none">
+        {["• • •", "✦", "• • •"].map((d, i) => (
+          <motion.p
+            key={i}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ delay: 0.5 + i * 0.1 }}
+            className="text-amber-500/30 text-xs tracking-widest"
+          >
+            {d}
+          </motion.p>
+        ))}
       </div>
     </div>
   );

@@ -18,6 +18,8 @@ interface Jellyfish {
   speedY: number;
   speedX: number;
   color: string;
+  glowColor: string;
+  tentacleColor: string;
   pulseSpeed: number;
 }
 
@@ -52,9 +54,9 @@ export const BioluminescentCanvas = () => {
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("resize", handleResize);
 
-    // Initialize stars
+    // Initialize stars (reduced density for performance)
     const stars: Particle[] = [];
-    for (let i = 0; i < 70; i++) {
+    for (let i = 0; i < 45; i++) {
       stars.push({
         x: Math.random() * width,
         y: Math.random() * height,
@@ -67,9 +69,9 @@ export const BioluminescentCanvas = () => {
       });
     }
 
-    // Initialize rising bubbles
+    // Initialize rising bubbles (reduced density for performance)
     const bubbles: Particle[] = [];
-    for (let i = 0; i < 25; i++) {
+    for (let i = 0; i < 15; i++) {
       bubbles.push({
         x: Math.random() * width,
         y: Math.random() * height + height, // Start below or spread out
@@ -82,12 +84,52 @@ export const BioluminescentCanvas = () => {
       });
     }
 
-    // Initialize bioluminescent jellyfish
+    // Initialize bioluminescent jellyfish with pre-computed colors to avoid string.replace in render loop
     const jellyfish: Jellyfish[] = [
-      { x: width * 0.15, y: height * 0.3, size: 30, speedY: -0.15, speedX: 0.05, color: "rgba(147, 197, 253, 0.25)", pulseSpeed: 0.015 }, // blue
-      { x: width * 0.8, y: height * 0.6, size: 25, speedY: -0.12, speedX: -0.06, color: "rgba(244, 143, 177, 0.22)", pulseSpeed: 0.012 }, // pink
-      { x: width * 0.45, y: height * 0.8, size: 35, speedY: -0.18, speedX: 0.08, color: "rgba(216, 180, 254, 0.24)", pulseSpeed: 0.016 }, // purple
-      { x: width * 0.85, y: height * 0.2, size: 20, speedY: -0.1, speedX: -0.04, color: "rgba(167, 243, 208, 0.2)", pulseSpeed: 0.01 }, // teal
+      {
+        x: width * 0.15,
+        y: height * 0.3,
+        size: 30,
+        speedY: -0.15,
+        speedX: 0.05,
+        color: "rgba(147, 197, 253, 0.25)",
+        glowColor: "rgba(147, 197, 253, 0.4)",
+        tentacleColor: "rgba(147, 197, 253, 0.35)",
+        pulseSpeed: 0.015,
+      }, // blue
+      {
+        x: width * 0.8,
+        y: height * 0.6,
+        size: 25,
+        speedY: -0.12,
+        speedX: -0.06,
+        color: "rgba(244, 143, 177, 0.22)",
+        glowColor: "rgba(244, 143, 177, 0.4)",
+        tentacleColor: "rgba(244, 143, 177, 0.35)",
+        pulseSpeed: 0.012,
+      }, // pink
+      {
+        x: width * 0.45,
+        y: height * 0.8,
+        size: 35,
+        speedY: -0.18,
+        speedX: 0.08,
+        color: "rgba(216, 180, 254, 0.24)",
+        glowColor: "rgba(216, 180, 254, 0.4)",
+        tentacleColor: "rgba(216, 180, 254, 0.35)",
+        pulseSpeed: 0.016,
+      }, // purple
+      {
+        x: width * 0.85,
+        y: height * 0.2,
+        size: 20,
+        speedY: -0.1,
+        speedX: -0.04,
+        color: "rgba(167, 243, 208, 0.2)",
+        glowColor: "rgba(167, 243, 208, 0.4)",
+        tentacleColor: "rgba(167, 243, 208, 0.35)",
+        pulseSpeed: 0.01,
+      }, // teal
     ];
 
     let time = 0;
@@ -182,14 +224,14 @@ export const BioluminescentCanvas = () => {
         ctx.fill();
 
         // Glow ring
-        ctx.strokeStyle = j.color.replace("0.2", "0.4");
+        ctx.strokeStyle = j.glowColor;
         ctx.lineWidth = 1.5;
         ctx.beginPath();
         ctx.arc(renderX, renderY, currentSize + 2, Math.PI, 0, false);
         ctx.stroke();
 
         // Draw Jellyfish Tentacles (wavy paths)
-        ctx.strokeStyle = j.color.replace("0.2", "0.35");
+        ctx.strokeStyle = j.tentacleColor;
         ctx.lineWidth = 1;
         const tentacleCount = 5;
 
@@ -201,9 +243,9 @@ export const BioluminescentCanvas = () => {
           let lastX = renderX + offset;
           let lastY = renderY + currentSize * 0.05;
 
-          // Segmented wavy lines
-          for (let seg = 1; seg <= 6; seg++) {
-            const segY = lastY + currentSize * 0.25;
+          // Segmented wavy lines (reduced segments for performance)
+          for (let seg = 1; seg <= 4; seg++) {
+            const segY = lastY + currentSize * 0.35;
             const segX = lastX + Math.sin(time * 0.2 + seg * 0.5 + t) * 2;
             ctx.lineTo(segX, segY);
             lastX = segX;

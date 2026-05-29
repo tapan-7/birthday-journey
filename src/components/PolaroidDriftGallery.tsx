@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useSound } from "./SoundController";
-import { HelpCircle, Star } from "lucide-react";
+import { Star } from "lucide-react";
 
 interface PhotoItem {
   id: string;
@@ -9,8 +9,8 @@ interface PhotoItem {
   title: string;
   caption: string;
   story: string;
-  xOffset: number; // percentage width position
-  yOffset: number; // percentage height position
+  xOffset: number;
+  yOffset: number;
   rot: number;
 }
 
@@ -29,7 +29,6 @@ export const PolaroidDriftGallery = ({
   const [activeZIndex, setActiveZIndex] = useState<Record<string, number>>({});
   const [topZ, setTopZ] = useState(10);
 
-  // Pre-configured Polaroid items with spread coordinate distributions
   const photos: PhotoItem[] = [
     {
       id: "photo-1",
@@ -37,8 +36,8 @@ export const PolaroidDriftGallery = ({
       title: "How It All Started",
       caption: "We started as strangers...",
       story: "It's funny how a random introduction turned into something so irreplaceable. From awkward handshakes to sharing our deepest secrets, we found comfort in the chaos of each other's lives.",
-      xOffset: 12,
-      yOffset: 25,
+      xOffset: 10,
+      yOffset: 20,
       rot: -5,
     },
     {
@@ -47,8 +46,8 @@ export const PolaroidDriftGallery = ({
       title: "The Midnight Conversations",
       caption: "...and somehow became close.",
       story: "Remember the 3 AM chats? Discussing the universe, relationship drama, and plans to take over the world. You became the person I could text without thinking twice.",
-      xOffset: 48,
-      yOffset: 15,
+      xOffset: 38,
+      yOffset: 10,
       rot: 6,
     },
     {
@@ -57,8 +56,8 @@ export const PolaroidDriftGallery = ({
       title: "Unplanned Adventures",
       caption: "Getting lost in the right places.",
       story: "We always ended up in the most random coffee shops, walking down streets we didn't know, laughing at things that made absolutely no sense to anyone else.",
-      xOffset: 72,
-      yOffset: 30,
+      xOffset: 62,
+      yOffset: 25,
       rot: -4,
     },
   ];
@@ -73,91 +72,105 @@ export const PolaroidDriftGallery = ({
 
   const handleCardClick = (item: PhotoItem) => {
     playPaperFlip();
-    onPhotoClick({
-      image: item.image,
-      title: item.title,
-      caption: item.caption,
-      story: item.story,
-    });
+    onPhotoClick({ image: item.image, title: item.title, caption: item.caption, story: item.story });
   };
 
   return (
-    <div className="w-full relative h-[450px] bg-black/45 border border-white/5 rounded-2xl p-6 overflow-hidden flex flex-col justify-between select-none">
-      
-      {/* Title */}
-      <div className="flex items-center justify-between border-b border-white/10 pb-4 z-10">
-        <div>
-          <span className="font-handwritten text-blue-300 text-lg block">drift portal</span>
-          <h3 className="font-cinematic text-xl font-bold tracking-tight text-white flex items-center gap-2">
-            <HelpCircle className="h-4 w-4 text-blue-300" />
-            Polaroid Drift Gallery
-          </h3>
-        </div>
-        <span className="text-xs font-sans text-stone-400">
-          Drag, stack & click photos
-        </span>
+    <div className="relative w-full flex flex-col">
+      {/* Section label */}
+      <div className="text-center mb-8">
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          className="font-handwritten text-cyan-300 text-2xl mb-2"
+          style={{ textShadow: "0 0 20px rgba(34,211,238,0.5)" }}
+        >
+          drift portal
+        </motion.p>
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="font-cinematic text-5xl md:text-6xl font-bold text-white tracking-tight"
+          style={{ textShadow: "0 0 40px rgba(34,211,238,0.2)" }}
+        >
+          Polaroid Drift Gallery
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="font-sans text-stone-400 text-sm mt-3"
+        >
+          Drag, stack & click photos to relive the memories
+        </motion.p>
       </div>
 
-      {/* Scattered Playfield Canvas */}
-      <div className="relative flex-grow w-full h-full overflow-hidden">
+      {/* Scattered Polaroid field — no container box */}
+      <div className="relative w-full select-none" style={{ height: 460 }}>
         {photos.map((item) => {
           const isCollected = collectedStars.includes(`polaroid-${item.id}`);
-          const currentZ = activeZIndex[item.id] || 2;
+          const currentZ   = activeZIndex[item.id] || 2;
 
           return (
             <motion.div
               key={item.id}
               drag
-              dragConstraints={{ left: 0, right: 350, top: 0, bottom: 180 }}
+              dragConstraints={{ left: -60, right: 200, top: -30, bottom: 120 }}
               onDragStart={() => handleDragStart(item.id)}
               onClick={() => handleCardClick(item)}
               style={{
                 position: "absolute",
                 left: `${item.xOffset}%`,
-                top: `${item.yOffset}%`,
+                top:  `${item.yOffset}%`,
                 zIndex: currentZ,
                 cursor: "grab",
               }}
-              whileDrag={{ scale: 1.05, cursor: "grabbing" }}
+              whileDrag={{ scale: 1.07, cursor: "grabbing", zIndex: topZ + 1 }}
               animate={{ rotate: item.rot }}
-              className="w-32 bg-white p-2 rounded shadow-2xl border border-stone-200/40 select-none group"
+              whileHover={{ rotate: 0, y: -6, scale: 1.04 }}
+              transition={{ type: "spring", stiffness: 200, damping: 20 }}
+              className="w-44 select-none group"
             >
-              {/* Image Frame */}
-              <div className="relative aspect-square w-full bg-stone-100 overflow-hidden rounded-sm">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  draggable="false"
-                  className="w-full h-full object-cover filter brightness-[0.95]"
-                />
-                
-                {/* Star Collection Badge overlay */}
-                {isCollected && (
-                  <div className="absolute top-1 right-1 bg-amber-400/90 rounded-full p-0.5 shadow-md">
-                    <Star className="h-3 w-3 fill-amber-950 text-amber-950" />
-                  </div>
-                )}
-              </div>
+              {/* Polaroid frame — white border, real polaroid style */}
+              <div
+                className="bg-white p-2.5 pb-8 rounded-sm shadow-2xl"
+                style={{ boxShadow: "0 15px 50px rgba(0,0,0,0.5), 0 5px 15px rgba(0,0,0,0.3)" }}
+              >
+                {/* Image */}
+                <div className="relative aspect-square overflow-hidden">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    draggable="false"
+                    className="w-full h-full object-cover filter brightness-95"
+                  />
+                  {isCollected && (
+                    <div className="absolute top-1.5 right-1.5 bg-amber-400 rounded-full p-0.5 shadow">
+                      <Star className="h-3 w-3 fill-amber-900 text-amber-900" />
+                    </div>
+                  )}
+                </div>
 
-              {/* Handwritten subtext */}
-              <div className="pt-2 text-center">
-                <span className="font-handwritten text-[#2d2424] text-xs font-bold leading-tight block truncate">
-                  {item.title.split(" ").slice(0, 2).join(" ")}
-                </span>
-                <span className="text-[8px] text-stone-500 block mt-0.5 tracking-wider font-semibold">
-                  DRAG ME
-                </span>
+                {/* Caption */}
+                <div className="pt-2 text-center">
+                  <span className="font-handwritten text-stone-800 text-xs font-semibold block truncate">
+                    {item.title.split(" ").slice(0, 3).join(" ")}
+                  </span>
+                  <span className="text-[8px] text-stone-400 block mt-0.5 tracking-widest font-semibold uppercase">
+                    drag me
+                  </span>
+                </div>
               </div>
             </motion.div>
           );
         })}
       </div>
 
-      {/* Guide Footer */}
-      <div className="text-center text-[11px] font-sans text-stone-400 z-10 pt-4 border-t border-white/5">
-        Tactile drag-and-drop mode. Cards preserve stacking orders.
-      </div>
+      <p className="text-center text-[11px] font-sans text-stone-600 mt-2 tracking-widest uppercase">
+        Tactile drag-and-drop · cards preserve stacking order
+      </p>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { useEffect, useState, createContext, useContext } from "react";
+import { useEffect, useState, createContext, useContext, useRef } from "react";
 import { Howl } from "howler";
 import { birthdayData } from "@/config/birthdayData";
 import { Volume2, VolumeX } from "lucide-react";
@@ -13,20 +13,19 @@ interface SoundContextType {
 
 const SoundContext = createContext<SoundContextType | null>(null);
 
-let ambientBg: Howl | null = null;
-let vinylCrackle: Howl | null = null;
-let paperFlip: Howl | null = null;
-let cameraShutter: Howl | null = null;
-let keyboardType: Howl | null = null;
-
 export const SoundProvider = ({ children }: { children: React.ReactNode }) => {
   const [isPlaying, setIsPlaying] = useState(false);
+  const ambientBgRef = useRef<Howl | null>(null);
+  const vinylCrackleRef = useRef<Howl | null>(null);
+  const paperFlipRef = useRef<Howl | null>(null);
+  const cameraShutterRef = useRef<Howl | null>(null);
+  const keyboardTypeRef = useRef<Howl | null>(null);
 
   useEffect(() => {
     // Only run on client-side
     if (typeof window !== "undefined") {
       // 1. Ambient Background Music (looped, low volume)
-      ambientBg = new Howl({
+      ambientBgRef.current = new Howl({
         src: [birthdayData.bgMusicUrl],
         html5: true, // Use HTML5 audio for long tracks
         loop: true,
@@ -34,7 +33,7 @@ export const SoundProvider = ({ children }: { children: React.ReactNode }) => {
       });
 
       // 2. Vinyl Crackle (looped, extremely low volume for warmth)
-      vinylCrackle = new Howl({
+      vinylCrackleRef.current = new Howl({
         src: [birthdayData.vinylCrackleUrl],
         html5: true,
         loop: true,
@@ -42,17 +41,17 @@ export const SoundProvider = ({ children }: { children: React.ReactNode }) => {
       });
 
       // 3. Sound Effects (short clips, preloaded)
-      paperFlip = new Howl({
+      paperFlipRef.current = new Howl({
         src: [birthdayData.paperFlipUrl],
         volume: 0.4,
       });
 
-      cameraShutter = new Howl({
+      cameraShutterRef.current = new Howl({
         src: [birthdayData.cameraShutterUrl],
         volume: 0.5,
       });
 
-      keyboardType = new Howl({
+      keyboardTypeRef.current = new Howl({
         src: [birthdayData.typingUrl],
         volume: 0.15,
       });
@@ -60,23 +59,25 @@ export const SoundProvider = ({ children }: { children: React.ReactNode }) => {
 
     return () => {
       // Cleanup on unmount
-      if (ambientBg) ambientBg.unload();
-      if (vinylCrackle) vinylCrackle.unload();
-      if (paperFlip) paperFlip.unload();
-      if (cameraShutter) cameraShutter.unload();
-      if (keyboardType) keyboardType.unload();
+      if (ambientBgRef.current) ambientBgRef.current.unload();
+      if (vinylCrackleRef.current) vinylCrackleRef.current.unload();
+      if (paperFlipRef.current) paperFlipRef.current.unload();
+      if (cameraShutterRef.current) cameraShutterRef.current.unload();
+      if (keyboardTypeRef.current) keyboardTypeRef.current.unload();
     };
   }, []);
 
   const togglePlay = () => {
+    const ambientBg = ambientBgRef.current;
+    const vinylCrackle = vinylCrackleRef.current;
     if (!ambientBg || !vinylCrackle) return;
 
     if (isPlaying) {
       ambientBg.fade(ambientBg.volume(), 0, 1000);
       vinylCrackle.fade(vinylCrackle.volume(), 0, 1000);
       setTimeout(() => {
-        ambientBg?.pause();
-        vinylCrackle?.pause();
+        if (ambientBgRef.current) ambientBgRef.current.pause();
+        if (vinylCrackleRef.current) vinylCrackleRef.current.pause();
       }, 1000);
     } else {
       ambientBg.play();
@@ -88,20 +89,20 @@ export const SoundProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const playPaperFlip = () => {
-    if (paperFlip && isPlaying) {
-      paperFlip.play();
+    if (paperFlipRef.current && isPlaying) {
+      paperFlipRef.current.play();
     }
   };
 
   const playCameraShutter = () => {
-    if (cameraShutter && isPlaying) {
-      cameraShutter.play();
+    if (cameraShutterRef.current && isPlaying) {
+      cameraShutterRef.current.play();
     }
   };
 
   const playKeyboardType = () => {
-    if (keyboardType && isPlaying) {
-      keyboardType.play();
+    if (keyboardTypeRef.current && isPlaying) {
+      keyboardTypeRef.current.play();
     }
   };
 

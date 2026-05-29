@@ -24,130 +24,171 @@ export const WishingWell = ({
     e.preventDefault();
     if (!wishText.trim() || isAnimating || isThrew || isCollected) return;
 
-    playPaperFlip(); // Sound
+    playPaperFlip();
     setIsAnimating(true);
 
-    // After coin drop animation completes (1.5s)
     setTimeout(() => {
       setIsAnimating(false);
       setIsThrew(true);
       onCollectStar("wishing-well");
-
-      // Starburst confetti from the well
       confetti({
-        particleCount: 30,
-        spread: 60,
-        origin: { y: 0.7, x: 0.5 },
+        particleCount: 50,
+        spread: 70,
+        origin: { y: 0.6, x: 0.5 },
         colors: ["#fbbf24", "#fda4af", "#a7f3d0"],
       });
-    }, 1500);
+    }, 1600);
   };
 
   return (
-    <div className="w-full relative h-[450px] bg-black/45 border border-white/5 rounded-2xl p-6 overflow-hidden flex flex-col justify-between">
-      
-      {/* Title */}
-      <div className="flex items-center justify-between border-b border-white/10 pb-4 z-10">
-        <div>
-          <span className="font-handwritten text-rose-300 text-lg block">chapter 5</span>
-          <h3 className="font-cinematic text-xl font-bold tracking-tight text-white flex items-center gap-2">
-            <Sparkles className="h-4 w-4 text-rose-300" />
-            The Wishing Well
-          </h3>
-        </div>
-        <span className="text-xs font-sans text-stone-400">
-          Throw a coin, make a wish
-        </span>
+    <div className="relative w-full flex flex-col items-center">
+      {/* Section label */}
+      <div className="text-center mb-12">
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          className="font-handwritten text-rose-300 text-2xl mb-2"
+          style={{ textShadow: "0 0 20px rgba(244,63,94,0.5)" }}
+        >
+          chapter 5
+        </motion.p>
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="font-cinematic text-5xl md:text-6xl font-bold text-white tracking-tight"
+          style={{ textShadow: "0 0 40px rgba(244,63,94,0.25)" }}
+        >
+          The Wishing Well
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="font-sans text-stone-400 text-sm mt-3"
+        >
+          Throw a coin and make a wish into the deep ✨
+        </motion.p>
       </div>
 
-      {/* Animation Area: Coin Dropping */}
-      <div className="relative flex-grow flex flex-col items-center justify-center my-4 z-10">
-        <AnimatePresence>
-          {isAnimating && (
-            <motion.div
-              initial={{ y: -100, x: 0, rotate: 0, scale: 1.5 }}
-              animate={{
-                y: 130,
-                rotate: 720,
-                scale: [1.5, 1, 0.8],
-                opacity: [1, 1, 0],
-              }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1.4, ease: [0.55, 0, 1, 0.45] }}
-              className="absolute z-20 w-8 h-8 rounded-full bg-gradient-to-tr from-amber-500 via-yellow-300 to-amber-600 border border-yellow-200 shadow-[0_0_15px_rgba(251,191,36,0.8)] flex items-center justify-center"
-            >
-              <span className="font-sans text-[10px] font-bold text-amber-950">W</span>
-            </motion.div>
-          )}
-        </AnimatePresence>
+      {/* Well visual — free floating, large */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.3, type: "spring", damping: 20 }}
+        className="flex flex-col items-center gap-8"
+      >
+        {/* Coin drop animation */}
+        <div className="relative flex items-center justify-center" style={{ height: 180 }}>
+          <AnimatePresence>
+            {isAnimating && (
+              <motion.div
+                initial={{ y: -120, x: 0, rotate: 0, scale: 1.4, opacity: 1 }}
+                animate={{ y: 80, rotate: 720, scale: [1.4, 0.9, 0.6], opacity: [1, 1, 0] }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 1.5, ease: [0.55, 0, 1, 0.45] }}
+                className="absolute z-20 w-10 h-10 rounded-full bg-gradient-to-tr from-amber-400 via-yellow-300 to-amber-500 border border-yellow-200 flex items-center justify-center"
+                style={{ boxShadow: "0 0 20px rgba(251,191,36,0.9)" }}
+              >
+                <span className="font-sans text-xs font-black text-amber-950">W</span>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-        {/* The Well Circle */}
-        <div className="relative w-36 h-36 rounded-full border-4 border-dashed border-stone-700/60 bg-black/25 flex items-center justify-center shadow-[inset_0_0_30px_rgba(0,0,0,0.8)]">
-          <div className="absolute inset-2 rounded-full border border-stone-800/40 bg-gradient-to-b from-stone-900/10 to-indigo-900/30 flex items-center justify-center">
+          {/* The Well — just concentric rings, no box */}
+          <div
+            className="relative rounded-full flex items-center justify-center"
+            style={{
+              width: 180,
+              height: 180,
+              background: "radial-gradient(circle, rgba(30,10,60,0.9) 0%, rgba(10,5,20,0.7) 100%)",
+              border: "3px dashed rgba(255,255,255,0.12)",
+              boxShadow: "0 0 60px rgba(99,102,241,0.15), inset 0 0 40px rgba(0,0,0,0.8)",
+            }}
+          >
+            {/* Inner ring */}
+            <div
+              className="absolute rounded-full"
+              style={{
+                width: 140,
+                height: 140,
+                border: "1px solid rgba(255,255,255,0.06)",
+              }}
+            />
+
             {isThrew || isCollected ? (
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
-                className="text-center p-2"
+                className="text-center"
               >
-                <Sparkles className="h-7 w-7 text-amber-300 mx-auto animate-pulse" />
-                <span className="font-handwritten text-stone-300 text-xs block mt-1">Wish Cast</span>
+                <Sparkles className="h-10 w-10 text-amber-300 mx-auto animate-pulse" />
+                <span className="font-handwritten text-stone-300 text-sm block mt-2">Wish Cast ✦</span>
               </motion.div>
             ) : (
-              <HelpCircle className="h-6 w-6 text-stone-600 animate-pulse" />
+              <HelpCircle className="h-8 w-8 text-stone-600 animate-pulse" />
+            )}
+
+            {/* Ripple rings */}
+            {isAnimating && (
+              <>
+                <motion.div
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1.8, opacity: [0, 0.4, 0] }}
+                  transition={{ delay: 1.3, duration: 0.9 }}
+                  className="absolute inset-0 rounded-full border-2 border-cyan-400/40"
+                />
+                <motion.div
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 2.2, opacity: [0, 0.2, 0] }}
+                  transition={{ delay: 1.5, duration: 0.9 }}
+                  className="absolute inset-0 rounded-full border border-cyan-400/20"
+                />
+              </>
             )}
           </div>
-
-          {/* Ripple rings when coin lands */}
-          {isAnimating && (
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1.8, opacity: [0, 0.5, 0] }}
-              transition={{ delay: 1.2, duration: 0.8 }}
-              className="absolute inset-0 rounded-full border-2 border-cyan-400/40"
-            />
-          )}
         </div>
-      </div>
 
-      {/* Input / Message panel */}
-      <div className="z-10 bg-white/5 border border-white/10 rounded-xl p-4">
-        {isThrew || isCollected ? (
-          <div className="text-center py-2 space-y-1">
-            <span className="font-handwritten text-xl text-amber-300 block">
-              "Your wish has been thrown into the deep sea of dreams."
-            </span>
-            <p className="font-sans text-[10px] text-stone-400 uppercase tracking-widest">
-              May the universe align to make it true
-            </p>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="space-y-3">
-            <input
-              type="text"
-              required
-              disabled={isAnimating}
-              value={wishText}
-              onChange={(e) => setWishText(e.target.value)}
-              placeholder="Type your secret wish here..."
-              className="w-full px-3.5 py-2 rounded bg-black/60 border border-white/10 text-white font-sans text-xs focus:outline-none focus:border-amber-500/50 transition-colors"
-            />
-            <button
-              type="submit"
-              disabled={isAnimating || !wishText.trim()}
-              className="w-full py-2 rounded bg-amber-500 hover:bg-amber-400 disabled:bg-stone-800 disabled:text-stone-500 text-stone-950 font-sans font-semibold text-xs tracking-wider uppercase transition-colors cursor-pointer flex items-center justify-center gap-1.5"
-            >
-              <span>Throw Wish</span>
-              <Sparkles className="h-3.5 w-3.5" />
-            </button>
-          </form>
-        )}
-      </div>
-
-      {/* Guide Footer */}
-      <div className="text-center text-[11px] font-sans text-stone-400 z-10 pt-4 border-t border-white/5">
-        Write a secret wish. Your wish remains anonymous, cast into the deep.
-      </div>
+        {/* Input panel — minimal, just text + button */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="w-full max-w-sm"
+        >
+          {isThrew || isCollected ? (
+            <div className="text-center space-y-2">
+              <p className="font-handwritten text-2xl text-amber-300">
+                "Your wish has been cast into the universe."
+              </p>
+              <p className="font-sans text-[11px] text-stone-500 uppercase tracking-widest">
+                May it find its way to you ✦
+              </p>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <input
+                type="text"
+                required
+                disabled={isAnimating}
+                value={wishText}
+                onChange={(e) => setWishText(e.target.value)}
+                placeholder="Type your secret wish here..."
+                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white font-sans text-sm focus:outline-none focus:border-amber-500/40 focus:bg-white/8 transition-all placeholder-stone-600"
+              />
+              <button
+                type="submit"
+                disabled={isAnimating || !wishText.trim()}
+                className="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-rose-500 hover:from-amber-400 hover:to-rose-400 disabled:opacity-40 text-white font-sans font-semibold text-sm tracking-wide transition-all cursor-pointer flex items-center justify-center gap-2"
+                style={{ boxShadow: wishText.trim() ? "0 0 20px rgba(251,191,36,0.3)" : undefined }}
+              >
+                <Sparkles className="h-4 w-4" />
+                Throw Wish into the Deep
+              </button>
+            </form>
+          )}
+        </motion.div>
+      </motion.div>
     </div>
   );
 };

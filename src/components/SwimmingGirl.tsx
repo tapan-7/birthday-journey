@@ -1,6 +1,19 @@
+import { useMemo } from "react";
 import { motion } from "framer-motion";
 
 export const SwimmingGirl = () => {
+  const particles = useMemo(() => {
+    return Array.from({ length: 6 }).map((_, i) => {
+      const offsetFactor = Math.sin(i * 123.4) * 15;
+      return {
+        x: [-20 - i * 15, -60 - i * 20],
+        y: [Math.sin(i) * 15, Math.sin(i) * 30 + offsetFactor],
+        duration: 2 + i * 0.3,
+        left: `${25 + i * 8}%`,
+      };
+    });
+  }, []);
+
   return (
     <div className="relative w-72 h-48 flex items-center justify-center pointer-events-none select-none">
       {/* Glow shadow backdrop */}
@@ -19,22 +32,22 @@ export const SwimmingGirl = () => {
 
       {/* Trailing particles / sparkles */}
       <div className="absolute inset-0 flex items-center justify-start pl-8 opacity-75">
-        {[...Array(6)].map((_, i) => (
+        {particles.map((p, i) => (
           <motion.div
             key={i}
             animate={{
-              x: [-20 - i * 15, -60 - i * 20],
-              y: [Math.sin(i) * 15, Math.sin(i) * 30 + (Math.random() - 0.5) * 15],
+              x: p.x,
+              y: p.y,
               scale: [1, 0],
               opacity: [0.8, 0],
             }}
             transition={{
               repeat: Infinity,
-              duration: 2 + i * 0.3,
+              duration: p.duration,
               ease: "easeOut",
             }}
             className="absolute w-1.5 h-1.5 rounded-full bg-cyan-300 blur-[0.5px] shadow-[0_0_8px_rgba(34,211,238,0.8)]"
-            style={{ left: `${25 + i * 8}%` }}
+            style={{ left: p.left }}
           />
         ))}
       </div>
