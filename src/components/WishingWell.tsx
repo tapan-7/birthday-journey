@@ -44,7 +44,6 @@ export const WishingWell = ({
     <div className="relative w-full flex flex-col items-center">
       {/* Section label */}
       <div className="text-center mb-12">
-
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -60,7 +59,7 @@ export const WishingWell = ({
           transition={{ delay: 0.2 }}
           className="font-sans text-stone-400 text-sm mt-3"
         >
-          Throw a coin and make a wish into the deep ✨
+          Throw a coin and make a wish into the deep
         </motion.p>
       </div>
 
@@ -72,18 +71,28 @@ export const WishingWell = ({
         className="flex flex-col items-center gap-8"
       >
         {/* Coin drop animation */}
-        <div className="relative flex items-center justify-center" style={{ height: 180 }}>
+        <div
+          className="relative flex items-center justify-center"
+          style={{ height: 180 }}
+        >
           <AnimatePresence>
             {isAnimating && (
               <motion.div
                 initial={{ y: -120, x: 0, rotate: 0, scale: 1.4, opacity: 1 }}
-                animate={{ y: 80, rotate: 720, scale: [1.4, 0.9, 0.6], opacity: [1, 1, 0] }}
+                animate={{
+                  y: 80,
+                  rotate: 720,
+                  scale: [1.4, 0.9, 0.6],
+                  opacity: [1, 1, 0],
+                }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 1.5, ease: [0.55, 0, 1, 0.45] }}
                 className="absolute z-20 w-10 h-10 rounded-full bg-gradient-to-tr from-amber-400 via-yellow-300 to-amber-500 border border-yellow-200 flex items-center justify-center"
                 style={{ boxShadow: "0 0 20px rgba(251,191,36,0.9)" }}
               >
-                <span className="font-sans text-xs font-black text-amber-950">W</span>
+                <span className="font-sans text-xs font-black text-amber-950">
+                  W
+                </span>
               </motion.div>
             )}
           </AnimatePresence>
@@ -94,9 +103,11 @@ export const WishingWell = ({
             style={{
               width: 180,
               height: 180,
-              background: "radial-gradient(circle, rgba(30,10,60,0.9) 0%, rgba(10,5,20,0.7) 100%)",
+              background:
+                "radial-gradient(circle, rgba(30,10,60,0.9) 0%, rgba(10,5,20,0.7) 100%)",
               border: "3px dashed rgba(255,255,255,0.12)",
-              boxShadow: "0 0 60px rgba(99,102,241,0.15), inset 0 0 40px rgba(0,0,0,0.8)",
+              boxShadow:
+                "0 0 60px rgba(99,102,241,0.15), inset 0 0 40px rgba(0,0,0,0.8)",
             }}
           >
             {/* Inner ring */}
@@ -115,8 +126,9 @@ export const WishingWell = ({
                 animate={{ scale: 1 }}
                 className="text-center"
               >
-
-                <span className="font-handwritten text-stone-300 text-sm block mt-2">Wish Cast ✦</span>
+                <span className="font-handwritten text-stone-300 text-sm block mt-2">
+                  Wish Cast ✦
+                </span>
               </motion.div>
             ) : (
               <HelpCircle className="h-8 w-8 text-stone-600 animate-pulse" />
@@ -173,9 +185,12 @@ export const WishingWell = ({
                 type="submit"
                 disabled={isAnimating || !wishText.trim()}
                 className="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-rose-500 hover:from-amber-400 hover:to-rose-400 disabled:opacity-40 text-white font-sans font-semibold text-sm tracking-wide transition-all cursor-pointer flex items-center justify-center gap-2"
-                style={{ boxShadow: wishText.trim() ? "0 0 20px rgba(251,191,36,0.3)" : undefined }}
+                style={{
+                  boxShadow: wishText.trim()
+                    ? "0 0 20px rgba(251,191,36,0.3)"
+                    : undefined,
+                }}
               >
-
                 Throw Wish into the Deep
               </button>
             </form>

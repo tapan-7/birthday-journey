@@ -216,7 +216,7 @@ export default function Home() {
         {/* Particle Backdrop & Film Grain */}
         <BioluminescentCanvas />
         <FilmGrain />
-        
+
         {/* Global Floating Bubbles Overlay */}
         <FloatingBubbles
           onCollectStar={handleCollectStar}
@@ -355,7 +355,7 @@ export default function Home() {
                   <h1 className="text-shimmer font-cinematic text-6xl md:text-8xl font-extrabold tracking-tight leading-none">
                     Happy Birthday,
                     <br />
-                    Aalu ✨
+                    Aalu
                   </h1>
                   <p className="font-sans text-stone-400 text-sm font-light leading-relaxed max-w-md mx-auto">
                     "Some journeys begin unexpectedly."
@@ -493,15 +493,6 @@ export default function Home() {
 
                   {/* Title block */}
                   <div className="flex-1 flex flex-col items-start text-left space-y-6">
-                    <motion.span
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.3 }}
-                      className="badge-pulse px-3 py-1 rounded-full bg-purple-500/10 border border-purple-400/25 text-purple-300 text-[10px] font-semibold uppercase tracking-wider"
-                    >
-                      ✦ A Living Memory Universe ✦
-                    </motion.span>
-
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -524,7 +515,7 @@ export default function Home() {
                       >
                         Happy Birthday,
                         <br />
-                        <span className="text-shimmer">Aalu ✨</span>
+                        <span className="text-shimmer">Aalu</span>
                       </h2>
                     </motion.div>
 

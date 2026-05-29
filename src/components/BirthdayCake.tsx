@@ -13,7 +13,7 @@ export const BirthdayCake = ({
   onAllBlown,
 }: BirthdayCakeProps) => {
   const [litCandles, setLitCandles] = useState<boolean[]>(
-    Array(candlesCount).fill(true)
+    Array(candlesCount).fill(true),
   );
   const { playCameraShutter, playPaperFlip } = useSound();
   const confettiIntervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -82,7 +82,6 @@ export const BirthdayCake = ({
     <div className="flex flex-col items-center select-none py-6">
       {/* Interactive Birthday Cake Container */}
       <div className="relative w-64 h-56 flex items-end justify-center">
-        
         {/* Candles sitting on top of the cake */}
         <div className="absolute top-[8%] flex justify-center gap-10 w-full px-12 z-20">
           {litCandles.map((isLit, idx) => (
@@ -100,7 +99,7 @@ export const BirthdayCake = ({
                     exit={{ scale: 0, y: -10, opacity: 0 }}
                     transition={{
                       duration: 0.3,
-                      scale: { repeat: Infinity, duration: 1.2 }
+                      scale: { repeat: Infinity, duration: 1.2 },
                     }}
                     className="absolute -top-7 w-4 h-6 rounded-full bg-gradient-to-t from-orange-600 via-amber-400 to-yellow-200 blur-[1px] shadow-[0_0_8px_rgba(245,158,11,0.8)]"
                     style={{ originY: 1 }}
@@ -123,9 +122,15 @@ export const BirthdayCake = ({
           <div className="w-48 h-20 bg-gradient-to-b from-[#FAF4EC] to-[#F1E5D5] rounded-t-lg relative border-b-4 border-rose-300/30 shadow-md">
             {/* Dripping Frosting */}
             <div className="absolute top-0 inset-x-0 h-4 bg-rose-400 rounded-t-lg flex justify-around">
-              {Array(6).fill(0).map((_, i) => (
-                <div key={i} className="w-5 h-6 bg-rose-400 rounded-b-full shadow-inner" style={{ marginTop: '-1px' }} />
-              ))}
+              {Array(6)
+                .fill(0)
+                .map((_, i) => (
+                  <div
+                    key={i}
+                    className="w-5 h-6 bg-rose-400 rounded-b-full shadow-inner"
+                    style={{ marginTop: "-1px" }}
+                  />
+                ))}
             </div>
           </div>
 
@@ -144,7 +149,7 @@ export const BirthdayCake = ({
       <div className="mt-6 text-center">
         <p className="font-handwritten text-xl text-rose-300 animate-pulse">
           {litCandles.some((c) => c)
-            ? "✨ Click the candles to blow them out & make a wish... ✨"
+            ? "Click the candles to blow them out & make a wish..."
             : "🎂 Your wish has been sent to the stars! 🎂"}
         </p>
       </div>

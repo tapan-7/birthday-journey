@@ -72,10 +72,10 @@ export const birthdayData: BirthdayConfig = {
   birthdayMonth: 5, // May
   birthdayDay: 28, // 28th (tomorrow, to trigger countdown)
 
-  landingTitle: "Happy Birthday, Aalu ✨",
+  landingTitle: "Happy Birthday, Aalu",
   landingSubtitle:
     "A cinematic journey through our favorite memories, inside jokes, and everything in between.",
-  bypassUnlockText: "Tap to Unlock the Magic ✨",
+  bypassUnlockText: "Tap to Unlock the Magic",
 
   chapters: [
     {
@@ -139,8 +139,7 @@ export const birthdayData: BirthdayConfig = {
   moments: [
     {
       id: "moment-1",
-      image:
-        "/Alien/IMG_8150.JPG",
+      image: "/Alien/IMG_8150.JPG",
       title: "How It All Started",
       caption: "We started as strangers...",
       story:
@@ -149,8 +148,7 @@ export const birthdayData: BirthdayConfig = {
     },
     {
       id: "moment-2",
-      image:
-        "/Alien/IMG-20250127-WA0002.jpg",
+      image: "/Alien/IMG-20250127-WA0002.jpg",
       title: "The Midnight Conversations",
       caption: "...and somehow became part of each other's lives.",
       story:
@@ -159,8 +157,7 @@ export const birthdayData: BirthdayConfig = {
     },
     {
       id: "moment-3",
-      image:
-        "/Alien/IMG-20250130-WA0029.jpg",
+      image: "/Alien/IMG-20250130-WA0029.jpg",
       title: "Our Unplanned Adventures",
       caption: "Getting lost in the right places.",
       story:
@@ -173,8 +170,7 @@ export const birthdayData: BirthdayConfig = {
   funMemories: [
     {
       id: "fun-1",
-      image:
-        "/Alien/IMG_20250125_124514.jpg",
+      image: "/Alien/IMG_20250125_124514.jpg",
       jokeTitle: "The Cafe Incident",
       caption:
         "The time you tried to pay with your gym membership card and didn't realize for 5 full minutes.",
@@ -183,8 +179,7 @@ export const birthdayData: BirthdayConfig = {
     },
     {
       id: "fun-2",
-      image:
-        "/Alien/IMG_20250125_164800137.jpg",
+      image: "/Alien/IMG_20250125_164800137.jpg",
       jokeTitle: "Uncontrollable Laughs",
       caption:
         "Laughing so hard that tea literally came out of your nose. Still the highlight of my year.",
@@ -193,8 +188,7 @@ export const birthdayData: BirthdayConfig = {
     },
     {
       id: "fun-3",
-      image:
-        "/Alien/IMG_20250126_060417037_MP.jpg",
+      image: "/Alien/IMG_20250126_060417037_MP.jpg",
       jokeTitle: "Sleeping Everywhere",
       caption:
         "You can sleep in a loud club, in a moving car, or standing up. It's honestly a superpower.",
@@ -203,8 +197,7 @@ export const birthdayData: BirthdayConfig = {
     },
     {
       id: "fun-4",
-      image:
-        "/Alien/IMG_20250126_065033682.jpg",
+      image: "/Alien/IMG_20250126_065033682.jpg",
       jokeTitle: "Typo Queen",
       caption:
         "'I'm running late' autocorrected to 'I'm eating slate'. Now we say it every single time.",
@@ -223,16 +216,14 @@ export const birthdayData: BirthdayConfig = {
   emotionalMemories: [
     {
       id: "em-1",
-      image:
-        "/Alien/IMG_20250126_070417629.jpg",
+      image: "/Alien/IMG_20250126_070417629.jpg",
       quote: "You probably don't realize how important you are to people.",
       story:
         "In a world where everyone is constantly busy, you showed up. You listened when I felt small, and you reminded me of who I was when I forgot. That is your magic.",
     },
     {
       id: "em-2",
-      image:
-        "/Alien/IMG_20250126_134902112.jpg",
+      image: "/Alien/IMG_20250126_134902112.jpg",
       quote: "Ordinary days became less ordinary because of you.",
       story:
         "We don't need fancy parties or grand adventures. Just sitting in your room, listening to music, and talking about life makes me feel incredibly lucky to have you.",
@@ -275,6 +266,6 @@ export const birthdayData: BirthdayConfig = {
   ending: {
     finalMessage: "Some people become memories. You became a part of life.",
     subText:
-      "Thank you for every laugh, every moment, and every memory. Happy Birthday once again ✨",
+      "Thank you for every laugh, every moment, and every memory. Happy Birthday once again",
   },
 };
