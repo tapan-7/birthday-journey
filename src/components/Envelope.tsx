@@ -2,6 +2,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useSound } from "./SoundController";
 import { MailOpen, X } from "lucide-react";
+import { createPortal } from "react-dom";
+import { useEffect } from "react";
 
 interface EnvelopeProps {
   title: string;
@@ -11,6 +13,12 @@ interface EnvelopeProps {
 export const Envelope = ({ title, paragraphs }: EnvelopeProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [showLetterModal, setShowLetterModal] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const { playPaperFlip } = useSound();
 
   const handleOpen = () => {
@@ -96,52 +104,55 @@ export const Envelope = ({ title, paragraphs }: EnvelopeProps) => {
       </motion.div>
 
       {/* Full screen Letter Overlay Modal */}
-      <AnimatePresence>
-        {showLetterModal && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[1100] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm cursor-pointer"
-            onClick={handleCloseModal}
-          >
+      {mounted && createPortal(
+        <AnimatePresence>
+          {showLetterModal && (
             <motion.div
-              initial={{ scale: 0.9, y: 30 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 30 }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="w-full max-w-xl bg-[#faf6ee] text-[#2d2424] p-8 rounded-lg shadow-2xl relative border-t-8 border-rose-400 max-h-[85vh] overflow-y-auto cursor-default"
-              onClick={(e) => e.stopPropagation()}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[5000] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm cursor-pointer"
+              onClick={handleCloseModal}
             >
-              {/* Close Button */}
-              <button
-                onClick={handleCloseModal}
-                className="absolute top-4 right-4 p-1.5 rounded-full hover:bg-stone-200 text-stone-600 transition-colors cursor-pointer"
-                title="Close letter"
+              <motion.div
+                initial={{ scale: 0.9, y: 30 }}
+                animate={{ scale: 1, y: 0 }}
+                exit={{ scale: 0.9, y: 30 }}
+                transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                className="w-full max-w-xl bg-[#faf6ee] text-[#2d2424] p-8 rounded-lg shadow-2xl relative border-t-8 border-rose-400 max-h-[85vh] overflow-y-auto cursor-default"
+                onClick={(e) => e.stopPropagation()}
               >
-                <X className="h-5 w-5" />
-              </button>
+                {/* Close Button */}
+                <button
+                  onClick={handleCloseModal}
+                  className="absolute top-4 right-4 p-1.5 rounded-full hover:bg-stone-200 text-stone-600 transition-colors cursor-pointer"
+                  title="Close letter"
+                >
+                  <X className="h-5 w-5" />
+                </button>
 
-              {/* Letter Design */}
-              <div className="font-handwritten text-[#2d2424] space-y-6 pt-2">
-                <h4 className="text-3xl font-bold text-rose-700 tracking-wide border-b border-stone-300 pb-2">
-                  {title}
-                </h4>
+                {/* Letter Design */}
+                <div className="font-handwritten text-[#2d2424] space-y-6 pt-2">
+                  <h4 className="text-3xl font-bold text-rose-700 tracking-wide border-b border-stone-300 pb-2">
+                    {title}
+                  </h4>
 
-                <div className="text-xl md:text-2xl space-y-4 leading-relaxed tracking-wide text-stone-800">
-                  {paragraphs.map((p, idx) => (
-                    <p key={idx}>{p}</p>
-                  ))}
+                  <div className="text-xl md:text-2xl space-y-4 leading-relaxed tracking-wide text-stone-800">
+                    {paragraphs.map((p, idx) => (
+                      <p key={idx}>{p}</p>
+                    ))}
+                  </div>
+
+                  <div className="pt-8 border-t border-stone-200 text-right text-stone-600 text-2xl font-bold italic rotate-[-1deg]">
+                    — Love, Your Best Friend
+                  </div>
                 </div>
-
-                <div className="pt-8 border-t border-stone-200 text-right text-stone-600 text-2xl font-bold italic rotate-[-1deg]">
-                  — Love, Your Best Friend
-                </div>
-              </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </div>
   );
 };

@@ -217,12 +217,6 @@ export default function Home() {
         <BioluminescentCanvas />
         <FilmGrain />
 
-        {/* Global Floating Bubbles Overlay */}
-        <FloatingBubbles
-          onCollectStar={handleCollectStar}
-          collectedStars={collectedStars}
-        />
-
         {/* Global floating Wish Stars */}
         <div className="fixed inset-0 pointer-events-none z-10 overflow-hidden">
           {wishStars.map((ws) => (
@@ -455,6 +449,12 @@ export default function Home() {
               animate={{ opacity: 1 }}
               transition={{ duration: 1.2 }}
             >
+              {/* Global Floating Bubbles Overlay */}
+              <FloatingBubbles
+                onCollectStar={handleCollectStar}
+                collectedStars={collectedStars}
+              />
+
               {/* Floating Sidebar Navigation */}
               <nav className="floating-sidebar hidden md:flex flex-col gap-2.5">
                 {navItems.map((item) => (

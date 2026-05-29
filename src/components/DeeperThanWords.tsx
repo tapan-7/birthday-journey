@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { birthdayData, EmotionalMoment } from "@/config/birthdayData";
 import { Heart, X } from "lucide-react";
 import { useSound } from "./SoundController";
+
+import { createPortal } from "react-dom";
 
 interface DeeperThanWordsProps {
   onCollectStar: (id: string) => void;
@@ -15,6 +17,11 @@ export const DeeperThanWords = ({
 }: DeeperThanWordsProps) => {
   const { playPaperFlip } = useSound();
   const [activeMoment, setActiveMoment] = useState<EmotionalMoment | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleCardClick = (momentId: string) => {
     playPaperFlip();
@@ -128,49 +135,52 @@ export const DeeperThanWords = ({
       </div>
 
       {/* Story overlay */}
-      <AnimatePresence>
-        {activeMoment && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[500] flex items-center justify-center p-6 bg-black/70 backdrop-blur-md"
-            onClick={() => setActiveMoment(null)}
-          >
+      {mounted && createPortal(
+        <AnimatePresence>
+          {activeMoment && (
             <motion.div
-              initial={{ scale: 0.9, y: 30 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 30 }}
-              transition={{ type: "spring", damping: 25 }}
-              className="relative max-w-lg w-full"
-              onClick={(e) => e.stopPropagation()}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[5000] flex items-center justify-center p-6 bg-black/70 backdrop-blur-md"
+              onClick={() => setActiveMoment(null)}
             >
-              <div className="relative rounded-2xl overflow-hidden mb-4">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={activeMoment.image} alt="" className="w-full aspect-video object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-              </div>
-
-              <div className="text-center space-y-4 px-2">
-                <Heart className="h-6 w-6 fill-pink-400 text-pink-400 mx-auto" />
-                <p className="font-emotional italic text-white text-2xl leading-relaxed">
-                  "{activeMoment.quote}"
-                </p>
-                <p className="font-sans text-stone-300 text-sm leading-relaxed">
-                  {activeMoment.story}
-                </p>
-              </div>
-
-              <button
-                onClick={() => setActiveMoment(null)}
-                className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-colors cursor-pointer"
+              <motion.div
+                initial={{ scale: 0.9, y: 30 }}
+                animate={{ scale: 1, y: 0 }}
+                exit={{ scale: 0.9, y: 30 }}
+                transition={{ type: "spring", damping: 25 }}
+                className="relative max-w-lg w-full"
+                onClick={(e) => e.stopPropagation()}
               >
-                <X className="h-4 w-4" />
-              </button>
+                <div className="relative rounded-2xl overflow-hidden mb-4">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={activeMoment.image} alt="" className="w-full aspect-video object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+                </div>
+
+                <div className="text-center space-y-4 px-2">
+                  <Heart className="h-6 w-6 fill-pink-400 text-pink-400 mx-auto" />
+                  <p className="font-emotional italic text-white text-2xl leading-relaxed">
+                    "{activeMoment.quote}"
+                  </p>
+                  <p className="font-sans text-stone-300 text-sm leading-relaxed">
+                    {activeMoment.story}
+                  </p>
+                </div>
+
+                <button
+                  onClick={() => setActiveMoment(null)}
+                  className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-colors cursor-pointer"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </motion.div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </div>
   );
 };
